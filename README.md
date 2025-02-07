@@ -81,16 +81,14 @@ We aim to create an inclusive and respectful community. By participating in this
 	1.	Be Respectful and Kind – No discrimination, harassment, or hate speech.
 	2.	Share Appropriate Content – No offensive or plagiarized materials.
 	3.	Engage Positively – Constructive discussions are encouraged.
-	4.	Respect Intellectual Property – Credit original creators when modifying recipes.
-	5.	Ensure Privacy and Safety – No sharing of private or personal information.
+	4.	Ensure Privacy and Safety – No sharing of private or personal information.
 
 ## Ethical Considerations
 	1.	Data Privacy – Protect user data with secure authentication.
 	2.	Content Moderation – Implement a system to report and review inappropriate content.
 	3.	Inclusivity & Accessibility – Ensure usability for diverse dietary needs and users with disabilities.
 	4.	Cultural Sensitivities – Respect religious and cultural significance in recipes.
-	5.	Intellectual Property – Encourage proper attribution of original content.
-	6.	Sustainability – Promote awareness and real solutions for reducing food waste.
+	5.	Sustainability – Promote awareness and real solutions for reducing food waste.
 
 
 
