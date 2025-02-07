@@ -36,7 +36,7 @@ To install and run the project locally, follow these steps:
 
 1. Clone the Repository:
 
-       1.1  git clone https://github.com/MuzzyA1/Software-Engineering.git
+       1.1  git clone https://github.com/MuzamilAhmed1/Software-Engineering.git
        1.2  cd Software-Engineering
 
 3. Set Up Environment:
@@ -65,14 +65,14 @@ Once the server is running:
 
 ## Team Members
 	•	Hesham Alshawabka - https://github.com/alshawah
-	•	Muzamil Ahmed - https://github.com/MuzzyA1
+	•	Muzamil Ahmed - https://github.com/MuzamilAhmed1
 	•	Mariano Regalado Iglesias - https://github.com/marianor03
 	•	Adnan Sharif Ahmed - https://github.com/aahmed506
 	•	Anas Alsaik - https://github.com/anas126s
 
 For the complete project board and updates, check:
-	•	GitHub Project Board - https://github.com/users/MuzzyA1/projects/1/views/2
-	•	Repository - https://github.com/MuzzyA1/Software-Engineering
+	•	GitHub Project Board - https://github.com/users/MuzamilAhmed1/projects/1/views/2
+	•	Repository - https://github.com/MuzamilAhmed1/Software-Engineering
 
 ## Code of Conduct
 
