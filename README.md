@@ -90,4 +90,3 @@ We aim to create an inclusive and respectful community. By participating in this
 	4.	Cultural Sensitivities – Respect religious and cultural significance in recipes.
 	5.	Sustainability – Promote awareness and real solutions for reducing food waste.
 
-test from vs
