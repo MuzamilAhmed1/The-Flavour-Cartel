@@ -89,3 +89,5 @@ We aim to create an inclusive and respectful community. By participating in this
 	3.	Inclusivity & Accessibility – Ensure usability for diverse dietary needs and users with disabilities.
 	4.	Cultural Sensitivities – Respect religious and cultural significance in recipes.
 	5.	Sustainability – Promote awareness and real solutions for reducing food waste.
+
+test from vs
