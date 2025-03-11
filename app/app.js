@@ -4,6 +4,15 @@ const express = require("express");
 // Create express app
 var app = express();
 
+// Use the Pug templating engine
+app.set('view engine', 'pug');
+app.set('views', './app/views');
+
+// Create a route for root
+app.get("/", function(req, res) {
+    res.render("index");
+});
+
 // Add static files location
 app.use(express.static("static"));
 
