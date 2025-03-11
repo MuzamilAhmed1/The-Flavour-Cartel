@@ -35,7 +35,7 @@ app.get("/", async function(req, res) {
       if (results.length === 0) {
         html += `<p>No recipes found.</p>`;
       } else {
-        // Use the keys from the first record as table headerss
+        // Use the keys from the first record as table headersss
         const headers = Object.keys(results[0]);
         html += `<table>
                   <thead>
