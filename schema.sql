@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 12, 2025 at 02:48 PM
+-- Generation Time: Mar 12, 2025 at 03:31 PM
 -- Server version: 9.2.0
 -- PHP Version: 8.2.27
 
@@ -54,6 +54,7 @@ CREATE TABLE `recipes` (
   `description` text NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `category_id` int DEFAULT NULL,
+  `user_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -61,10 +62,10 @@ CREATE TABLE `recipes` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `title`, `description`, `image`, `category_id`, `created_at`) VALUES
-(1, 'Spaghetti Bolognese', 'A classic Italian pasta dish.', 'spaghetti.jpg', 1, '2025-03-11 13:25:16'),
-(2, 'Chicken Curry', 'A flavorful dish.', 'curry.jpg', 2, '2025-03-11 13:25:16'),
-(3, 'Vegan Salad', 'A mix of fresh veggies.', 'salad.jpg', 3, '2025-03-11 13:25:16');
+INSERT INTO `recipes` (`id`, `title`, `description`, `image`, `category_id`, `user_id`, `created_at`) VALUES
+(1, 'Spaghetti Bolognese', 'A classic Italian pasta dish.', 'spaghetti.jpg', 1, 1, '2025-03-11 13:25:16'),
+(2, 'Chicken Curry', 'A flavorful dish.', 'curry.jpg', 2, 1, '2025-03-11 13:25:16'),
+(3, 'Vegan Salad', 'A mix of fresh veggies.', 'salad.jpg', 3, 1, '2025-03-11 13:25:16');
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,8 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `recipes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_category` (`category_id`);
+  ADD KEY `fk_category` (`category_id`),
+  ADD KEY `fk_user` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -142,7 +144,8 @@ ALTER TABLE `users`
 -- Constraints for table `recipes`
 --
 ALTER TABLE `recipes`
-  ADD CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
