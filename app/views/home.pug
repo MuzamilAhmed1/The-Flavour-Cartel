@@ -1,12 +1,12 @@
 doctype html
 html(lang="en")
   head
-    title Flavour Cartel - Home
+    title The Flavour Cartel - Home
     link(rel="stylesheet" href="/styles.css") 
   body
     header
       .navbar
-        h1 Flavour Cartel
+        h1 The Flavour Cartel
         nav
           ul
             li: a(href="/recipes") Browse Recipes
@@ -45,14 +45,15 @@ html(lang="en")
         li Swap or share ingredients
         li Cook & enjoy!
     
-    // Popular Categories
-    .categories
-      h3 Explore by Category
-      ul
-        li: a(href="/recipes?category=1") Vegetarian
-        li: a(href="/recipes?category=2") Quick Meals
-        li: a(href="/recipes?category=3") Budget Friendly
-        li: a(href="/recipes?category=4") Desserts
+// Popular Categories (as tabs)
+.categories
+  h3 Explore by Category
+  .category-tabs
+    ul
+      li: a(href="/recipes?category=vegetarian") Vegetarian
+      li: a(href="/recipes?category=quick-meals") Quick Meals
+      li: a(href="/recipes?category=budget-friendly") Budget Friendly
+      li: a(href="/recipes?category=desserts") Desserts
 
     footer
-      p &copy; 2025 Recipe Swap | Made with ❤️
+      p &copy; 2025 The Flavour Cartel | Made with ❤️

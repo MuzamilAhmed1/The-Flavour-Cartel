@@ -1,75 +1,121 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f8f8f8;
-    color: #333;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    background: #ff914d;
-    padding: 15px;
-    color: white;
-  }
-  
-  .navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-  }
-  
-  .navbar a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .hero {
-    text-align: center;
-    padding: 50px;
-    background: url('/images/hero-bg.jpg') center/cover;
-    color: white;
-  }
-  
-  .hero h2 {
-    font-size: 2.5rem;
-  }
-  
-  .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #ff914d;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-  }
-  
-  .recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .recipe-card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .recipe-card img {
-    width: 100%;
-    border-radius: 10px;
-  }
-  
-  footer {
-    text-align: center;
-    padding: 15px;
-    background: #ff914d;
-    color: white;
-    margin-top: 20px;
-  }
-  
+/* Ensure the body takes up the full viewport height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background: #f8f8f8;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+/* Main content expands to push footer down */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Navbar Styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background: #ff914d;
+  padding: 15px;
+  color: white;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 50px;
+  background: url('/images/hero-bg.jpg') center/cover;
+  color: white;
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #ff914d;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #ff7300;
+}
+
+/* Recipe Grid */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Recipe Cards */
+.recipe-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.recipe-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Category Tabs */
+.category-tabs ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.category-tabs li {
+  display: inline;
+}
+
+.category-tabs a {
+  text-decoration: none;
+  padding: 10px 15px;
+  background: #ff914d;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.category-tabs a:hover {
+  background: #ff7300;
+}
+
+/* Footer stays at the bottom */
+footer {
+  text-align: center;
+  padding: 15px;
+  background: #ff914d;
+  color: white;
+  margin-top: auto;
+}
