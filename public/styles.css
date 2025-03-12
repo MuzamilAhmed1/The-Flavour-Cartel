@@ -42,7 +42,7 @@ html, body {
     text-align: center;
     padding: 50px;
     background: url('/images/hero-bg.jpg') center/cover;
-    color: white;
+    color: #ff914d;
 }
 
 .hero h2 {
@@ -230,3 +230,18 @@ footer {
     display: block;
     margin: 0 auto;
   }
+
+  /* View Profile Button */
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #ff914d;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #ff7300;
+}
