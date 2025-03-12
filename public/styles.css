@@ -179,3 +179,54 @@ footer {
     margin-top: 20px;
   }
   
+  /* Users List Page */
+.users-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.users-container h1 {
+    color: #ff914d;
+    margin-bottom: 20px;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.users-table th, .users-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.users-table th {
+    background: #ff914d;
+    color: white;
+}
+
+.users-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.users-table img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ff914d;
+}
+
+.detail-container img {
+    max-width: 400px; /* Adjust the maximum width as needed */
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }

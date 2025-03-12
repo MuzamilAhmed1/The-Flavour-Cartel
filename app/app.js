@@ -84,6 +84,7 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
+// Detail Page
 app.get("/recipe/:id", async (req, res) => {
   try {
     const recipeId = req.params.id;
@@ -110,3 +111,13 @@ app.get("/recipe/:id", async (req, res) => {
   }
 });
 
+// Users Listing Page
+app.get("/users", async (req, res) => {
+  try {
+      const users = await db.query("SELECT id, name, email, created_at FROM users");
+      res.render("users", { users });
+  } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).send("Error loading users list");
+  }
+});
