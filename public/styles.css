@@ -1,121 +1,142 @@
 /* Ensure the body takes up the full viewport height */
 html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  background: #f8f8f8;
-  color: #333;
-  font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background: #f8f8f8;
+    color: #333;
+    font-family: Arial, sans-serif;
 }
 
 /* Main content expands to push footer down */
 .main-content {
-  flex: 1;
-  padding: 20px;
+    flex: 1;
+    padding: 20px;
 }
 
 /* Navbar Styling */
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  background: #ff914d;
-  padding: 15px;
-  color: white;
+    display: flex;
+    justify-content: space-between;
+    background: #ff914d;
+    padding: 15px;
+    color: white;
 }
 
 .navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 15px;
+    list-style: none;
+    display: flex;
+    gap: 15px;
 }
 
 .navbar a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
 }
 
 /* Hero Section */
 .hero {
-  text-align: center;
-  padding: 50px;
-  background: url('/images/hero-bg.jpg') center/cover;
-  color: white;
+    text-align: center;
+    padding: 50px;
+    background: url('/images/hero-bg.jpg') center/cover;
+    color: white;
 }
 
 .hero h2 {
-  font-size: 2.5rem;
+    font-size: 2.5rem;
 }
 
 /* Buttons */
 .btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #ff914d;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
+    display: inline-block;
+    padding: 10px 20px;
+    background: #ff914d;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
 }
 
 .btn:hover {
-  background: #ff7300;
+    background: #ff7300;
 }
 
 /* Recipe Grid */
 .recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
 /* Recipe Cards */
 .recipe-card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .recipe-card img {
-  width: 100%;
-  border-radius: 10px;
+    width: 100%;
+    border-radius: 10px;
 }
 
 /* Category Tabs */
 .category-tabs ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 15px;
-  justify-content: center;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 .category-tabs li {
-  display: inline;
+    display: inline;
 }
 
 .category-tabs a {
-  text-decoration: none;
-  padding: 10px 15px;
-  background: #ff914d;
-  color: white;
-  border-radius: 5px;
-  font-weight: bold;
+    text-decoration: none;
+    padding: 10px 15px;
+    background: #ff914d;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 .category-tabs a:hover {
-  background: #ff7300;
+    background: #ff7300;
+}
+
+/* Profile Page */
+.profile-container {
+    text-align: center;
+    padding: 30px;
+}
+
+.profile-header img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #ff914d;
+}
+
+.profile-header h2 {
+    margin: 10px 0;
+}
+
+.user-recipes {
+    margin-top: 20px;
 }
 
 /* Footer stays at the bottom */
 footer {
-  text-align: center;
-  padding: 15px;
-  background: #ff914d;
-  color: white;
-  margin-top: auto;
+    text-align: center;
+    padding: 15px;
+    background: #ff914d;
+    color: white;
+    margin-top: auto;
 }
