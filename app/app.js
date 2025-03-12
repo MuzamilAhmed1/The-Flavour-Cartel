@@ -24,3 +24,26 @@ app.get("/", async (req, res) => {
 });
 
 module.exports = app; // Export the Express app
+
+// User Profile Page
+app.get("/users/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Fetch user info from the database
+    const user = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
+
+    // Fetch recipes posted by this user
+    const recipes = await db.query("SELECT * FROM recipes WHERE user_id = ?", [userId]);
+
+    // If user not found, show 404 page
+    if (user.length === 0) {
+      return res.status(404).send("User not found");
+    }
+
+    res.render("profile", { user: user[0], recipes });
+  } catch (error) {
+    console.error("Error loading profile:", error);
+    res.status(500).send("Error loading profile");
+  }
+});
