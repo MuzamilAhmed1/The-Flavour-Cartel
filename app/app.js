@@ -83,3 +83,30 @@ app.get("/users/:id", async (req, res) => {
     res.status(500).send("Error loading profile");
   }
 });
+
+app.get("/recipe/:id", async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const queryText = `
+      SELECT recipes.*, categories.name AS category_name
+      FROM recipes
+      JOIN categories ON recipes.category_id = categories.id
+      WHERE recipes.id = ?
+    `;
+    const [recipe] = await db.query(queryText, [recipeId]);
+
+    if (!recipe) {
+      return res.status(404).send("Recipe not found");
+    }
+
+    // If you're storing ingredients/instructions as TEXT with commas or line breaks:
+    // recipe.ingredients = recipe.ingredients ? recipe.ingredients.split(",") : [];
+    // recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
+
+    res.render("detail", { recipe });
+  } catch (error) {
+    console.error("Error loading recipe details:", error);
+    res.status(500).send("Error loading recipe details");
+  }
+});
+
