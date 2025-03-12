@@ -72,4 +72,35 @@ body {
     color: white;
     margin-top: 20px;
   }
+  .profile-container {
+    text-align: center;
+    padding: 30px;
+  }
+  
+  .profile-header img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #ff914d;
+  }
+  
+  .profile-header h2 {
+    margin: 10px 0;
+  }
+  
+  .user-recipes {
+    margin-top: 20px;
+  }
+  
+  .recipe-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recipe-card img {
+    width: 100%;
+    border-radius: 10px;
+  }
   
