@@ -21,7 +21,21 @@ SET time_zone = "+00:00";
 -- Database: `flavour_cartel`
 --
 
--- --------------------------------------------------------
+-- Table structure for table `users`
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    profile_picture VARCHAR(255) DEFAULT 'default.png',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--
+--Dumping data from table `users`
+--
+
+
 
 --
 -- Table structure for table `recipes`
