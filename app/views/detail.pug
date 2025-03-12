@@ -1,0 +1,56 @@
+doctype html
+html(lang="en")
+  head
+    title= `${recipe.title} - The Flavour Cartel`
+    link(rel="stylesheet" href="/styles.css")
+  body
+    header
+      .navbar
+        h1 The Flavour Cartel
+        nav
+          ul
+            li: a(href="/") Home
+            li: a(href="/recipes") Browse Recipes
+            li: a(href="/submit-recipe") Submit Recipe
+            li: a(href="/swap") Swap Ingredients
+
+    .main-content
+      .detail-container
+        // ============= TOP SECTION =============
+        .top-section
+          h2= recipe.title
+          if recipe.image
+            img(src=`/images/${recipe.image}` alt=recipe.title)
+          if recipe.category_name
+            p Category: #{recipe.category_name}
+          if recipe.created_at
+            p Created at: #{new Date(recipe.created_at).toLocaleString()}
+
+        // ============= BOTTOM SECTION =============
+        .bottom-section
+          // =========== LEFT COLUMN (INGREDIENTS) ===========
+          .left-column
+            h3 Ingredients
+            if recipe.ingredients
+              ul
+                each ingredient in recipe.ingredients
+                  li= ingredient
+            else
+              p No ingredients data provided.
+
+          // =========== RIGHT COLUMN (INSTRUCTIONS) ===========
+          .right-column
+            h3 Instructions
+            if recipe.instructions
+              ol
+                each step in recipe.instructions
+                  li= step
+            else
+              p No instructions data provided.
+
+        // ============= ACTIONS (PLACEHOLDER) =============
+        .actions
+          a.btn(href="/recipes") Back to Recipes
+
+    footer
+      p &copy; 2025 The Flavour Cartel | Made with ❤️
