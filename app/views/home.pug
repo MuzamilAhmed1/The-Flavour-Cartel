@@ -1,0 +1,58 @@
+doctype html
+html(lang="en")
+  head
+    title Flavour Cartel - Home
+    link(rel="stylesheet" href="/styles.css") 
+  body
+    header
+      .navbar
+        h1 Flavour Cartel
+        nav
+          ul
+            li: a(href="/recipes") Browse Recipes
+            li: a(href="/submit-recipe") Submit Recipe
+            li: a(href="/swap") Swap Ingredients
+            li: a(href="/login") Login
+
+    // Hero Section
+    .hero
+      h2 Swap & Share Recipes with Your Community!
+      p Find and share recipes, swap ingredients, and explore new meals.
+      a.btn(href="/recipes") Explore Recipes
+
+    // Search Bar
+    .search-bar
+      form(action="/search" method="GET")
+        input(type="text" name="query" placeholder="Search recipes...")
+        button(type="submit") Search
+
+    // Featured Recipes
+    .featured-recipes
+      h3 Featured Recipes
+      .recipe-grid
+        each recipe in recipes
+          .recipe-card
+            img(src=`/images/${recipe.image}` alt=recipe.title)
+            h4= recipe.title
+            p= recipe.description
+            a.btn(href=`/recipe/${recipe.id}`) View Recipe
+
+    // How It Works
+    .how-it-works
+      h3 How It Works
+      ol
+        li Find a recipe you like
+        li Swap or share ingredients
+        li Cook & enjoy!
+    
+    // Popular Categories
+    .categories
+      h3 Explore by Category
+      ul
+        li: a(href="/recipes?category=1") Vegetarian
+        li: a(href="/recipes?category=2") Quick Meals
+        li: a(href="/recipes?category=3") Budget Friendly
+        li: a(href="/recipes?category=4") Desserts
+
+    footer
+      p &copy; 2025 Recipe Swap | Made with ❤️
