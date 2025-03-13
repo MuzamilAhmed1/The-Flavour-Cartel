@@ -26,6 +26,11 @@ html(lang="en")
             p Category: #{recipe.category_name}
           if recipe.created_at
             p Created at: #{new Date(recipe.created_at).toLocaleString()}
+          if recipe.user_name
+            p Created by:
+              // Small image and a button with the creator's name
+              img.creator-profile-pic(src=`/images/${recipe.user_image || 'default.png'}` alt="Creator's Image")
+              button.btn.user-btn(type="button", onclick=`window.location.href='/users/${recipe.user_id}'`) #{recipe.user_name}
 
         // BOTTOM SECTION: Two-Column Layout
         .bottom-section
@@ -38,7 +43,6 @@ html(lang="en")
                   li= ingredient
             else
               p No ingredients provided.
-
           // RIGHT COLUMN: Instructions
           .right-column
             h3 Instructions
