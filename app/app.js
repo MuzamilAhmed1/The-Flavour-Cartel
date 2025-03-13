@@ -69,13 +69,14 @@ app.get("/users/:id", async (req, res) => {
     // Fetch user info from the database
     const user = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
 
-    // If user not found, show 404 page
     if (user.length === 0) {
       return res.status(404).send("User not found");
     }
 
-    // Render profile with an empty recipes array (or remove recipes from the template if not needed)
-    res.render("profile", { user: user[0], recipes: [] });
+    // Fetch recipes posted by this user
+    const recipes = await db.query("SELECT * FROM recipes WHERE user_id = ?", [userId]);
+
+    res.render("profile", { user: user[0], recipes });
   } catch (error) {
     console.error("Error loading profile:", error);
     res.status(500).send("Error loading profile");
@@ -88,9 +89,15 @@ app.get("/recipe/:id", async (req, res) => {
   try {
     const recipeId = req.params.id;
     const queryText = `
-      SELECT recipes.*, categories.name AS category_name 
+      SELECT 
+        recipes.*, 
+        categories.name AS category_name,
+        users.id AS user_id,
+        users.name AS user_name,
+        users.profile_picture AS user_image
       FROM recipes 
       JOIN categories ON recipes.category_id = categories.id 
+      JOIN users ON recipes.user_id = users.id
       WHERE recipes.id = ?
     `;
     const result = await db.query(queryText, [recipeId]);
@@ -101,17 +108,9 @@ app.get("/recipe/:id", async (req, res) => {
 
     const recipe = result[0];
 
-    // Split the ingredients and instructions into arrays if they exist.
-    if (recipe.ingredients) {
-      recipe.ingredients = recipe.ingredients.split("\n");
-    } else {
-      recipe.ingredients = [];
-    }
-    if (recipe.instructions) {
-      recipe.instructions = recipe.instructions.split("\n");
-    } else {
-      recipe.instructions = [];
-    }
+    // Split ingredients and instructions into arrays if they exist.
+    recipe.ingredients = recipe.ingredients ? recipe.ingredients.split("\n") : [];
+    recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
 
     res.render("detail", { recipe });
   } catch (error) {
@@ -119,6 +118,8 @@ app.get("/recipe/:id", async (req, res) => {
     res.status(500).send("Error loading recipe details");
   }
 });
+
+
 
 
 // Users Listing Page

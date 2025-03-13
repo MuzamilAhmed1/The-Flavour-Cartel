@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 13, 2025 at 02:37 PM
+-- Generation Time: Mar 13, 2025 at 03:44 PM
 -- Server version: 9.2.0
 -- PHP Version: 8.2.27
 
@@ -53,6 +53,7 @@ CREATE TABLE `recipes` (
   `description` text NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `category_id` int DEFAULT NULL,
+  `user_id` int NOT NULL,
   `ingredients` text,
   `instructions` text,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
@@ -62,10 +63,10 @@ CREATE TABLE `recipes` (
 -- Dumping data for table `recipes`
 --
 
-INSERT INTO `recipes` (`id`, `title`, `description`, `image`, `category_id`, `ingredients`, `instructions`, `created_at`) VALUES
-(1, 'Chicken Curry', 'A flavorful chicken curry with a rich, spiced coconut sauce.', 'curry.jpg', 2, '500g chicken, cut into pieces\r\n2 tbsp curry powder\r\n400ml coconut milk\r\n1 large onion, chopped\r\n3 garlic cloves, minced\r\n1 inch ginger, grated\r\n2 tbsp vegetable oil\r\nSalt and pepper to taste\r\nFresh coriander for garnish', '1. Marinate the chicken with salt and pepper for 10 minutes.\r\n2. Heat vegetable oil in a pan and sauté the chopped onions until soft.\r\n3. Add garlic and ginger; cook for an additional 2 minutes.\r\n4. Stir in the curry powder and cook for 1 minute.\r\n5. Add the chicken pieces and brown them on all sides.\r\n6. Pour in the coconut milk and bring to a simmer.\r\n7. Simmer for 20 minutes until the chicken is fully cooked.\r\n8. Garnish with fresh coriander and serve with rice.', '2025-03-13 12:23:55'),
-(2, 'Spaghetti Bolognese', 'A classic Italian pasta dish with a rich and hearty meat sauce.', 'spaghetti.jpg', 1, '500g minced beef\r\n1 onion, finely chopped\r\n2 garlic cloves, minced\r\n400g canned tomatoes\r\n2 tbsp tomato paste\r\n1 cup beef broth\r\n1 tsp dried oregano\r\n1 tsp dried basil\r\nSalt and pepper to taste\r\nSpaghetti pasta\r\nOlive oil', '1. Heat olive oil in a large pan over medium heat.\r\n2. Add the chopped onion and garlic; sauté until soft.\r\n3. Add the minced beef and cook until browned.\r\n4. Stir in the tomato paste, canned tomatoes, and beef broth.\r\n5. Season with oregano, basil, salt, and pepper.\r\n6. Simmer for 30 minutes, stirring occasionally.\r\n7. Meanwhile, cook the spaghetti according to package instructions.\r\n8. Serve the meat sauce over the spaghetti; garnish with fresh basil if desired.', '2025-03-13 12:23:55'),
-(3, 'Vegan Salad', 'A refreshing and nutritious salad featuring a mix of fresh vegetables and a tangy dressing.', 'salad.jpg', 3, '2 cups mixed greens\r\n1 cucumber, sliced\r\n1 tomato, diced\r\n1 avocado, sliced\r\n1/2 red onion, thinly sliced\r\n1 carrot, grated\r\nFor the dressing:\r\nJuice of 1 lemon\r\n2 tbsp olive oil\r\nSalt and pepper to taste', '1. In a large bowl, combine the mixed greens, cucumber, tomato, avocado, red onion, and carrot.\r\n2. In a small bowl, whisk together the lemon juice, olive oil, salt, and pepper to create the dressing.\r\n3. Drizzle the dressing over the salad and toss gently to combine.\r\n4. Serve immediately for a fresh, healthy meal.', '2025-03-13 12:23:56');
+INSERT INTO `recipes` (`id`, `title`, `description`, `image`, `category_id`, `user_id`, `ingredients`, `instructions`, `created_at`) VALUES
+(1, 'Chicken Curry', 'A flavorful chicken curry with a rich, spiced coconut sauce.', 'curry.jpg', 2, 1, '500g chicken, cut into pieces\r\n2 tbsp curry powder\r\n400ml coconut milk\r\n1 large onion, chopped\r\n3 garlic cloves, minced\r\n1 inch ginger, grated\r\n2 tbsp vegetable oil\r\nSalt and pepper to taste\r\nFresh coriander for garnish', '1. Marinate the chicken with salt and pepper for 10 minutes.\r\n2. Heat vegetable oil in a pan and sauté the chopped onions until soft.\r\n3. Add garlic and ginger; cook for an additional 2 minutes.\r\n4. Stir in the curry powder and cook for 1 minute.\r\n5. Add the chicken pieces and brown them on all sides.\r\n6. Pour in the coconut milk and bring to a simmer.\r\n7. Simmer for 20 minutes until the chicken is fully cooked.\r\n8. Garnish with fresh coriander and serve with rice.', '2025-03-13 12:23:55'),
+(2, 'Spaghetti Bolognese', 'A classic Italian pasta dish with a rich and hearty meat sauce.', 'spaghetti.jpg', 1, 2, '500g minced beef\r\n1 onion, finely chopped\r\n2 garlic cloves, minced\r\n400g canned tomatoes\r\n2 tbsp tomato paste\r\n1 cup beef broth\r\n1 tsp dried oregano\r\n1 tsp dried basil\r\nSalt and pepper to taste\r\nSpaghetti pasta\r\nOlive oil', '1. Heat olive oil in a large pan over medium heat.\r\n2. Add the chopped onion and garlic; sauté until soft.\r\n3. Add the minced beef and cook until browned.\r\n4. Stir in the tomato paste, canned tomatoes, and beef broth.\r\n5. Season with oregano, basil, salt, and pepper.\r\n6. Simmer for 30 minutes, stirring occasionally.\r\n7. Meanwhile, cook the spaghetti according to package instructions.\r\n8. Serve the meat sauce over the spaghetti; garnish with fresh basil if desired.', '2025-03-13 12:23:55'),
+(3, 'Vegan Salad', 'A refreshing and nutritious salad featuring a mix of fresh vegetables and a tangy dressing.', 'salad.jpg', 3, 3, '2 cups mixed greens\r\n1 cucumber, sliced\r\n1 tomato, diced\r\n1 avocado, sliced\r\n1/2 red onion, thinly sliced\r\n1 carrot, grated\r\nFor the dressing:\r\nJuice of 1 lemon\r\n2 tbsp olive oil\r\nSalt and pepper to taste', '1. In a large bowl, combine the mixed greens, cucumber, tomato, avocado, red onion, and carrot.\r\n2. In a small bowl, whisk together the lemon juice, olive oil, salt, and pepper to create the dressing.\r\n3. Drizzle the dressing over the salad and toss gently to combine.\r\n4. Serve immediately for a fresh, healthy meal.', '2025-03-13 12:23:56');
 
 -- --------------------------------------------------------
 
