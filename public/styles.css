@@ -476,4 +476,55 @@ button:hover {
     width: 100%;
     flex-shrink: 0;
   }
+
+/* Page Layout */
+.page-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Left & Right Image Columns */
+.left-column, .right-column {
+    width: 20%; /* Makes each column take up 20% of the page */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between images */
+}
+
+/* Center Content */
+.content-wrapper {
+    width: 55%; /* Center content takes up most space */
+    text-align: center;
+}
+
+/* Recipe Images */
+.recipe-image {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .page-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-column, .right-column {
+        width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .content-wrapper {
+        width: 100%;
+    }
+}
+
   

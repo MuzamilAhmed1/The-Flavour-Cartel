@@ -15,25 +15,35 @@ html(lang="en")
             li: a(href="/users") Users
             li: a(href="/login") Login
 
-    // Hero Section
-    .hero
-      h2 Swap & Share Recipes with Your Community!
-      p Find and share recipes, swap ingredients, and explore new meals.
-      a.btn(href="/recipes") Explore Recipes
+    // Main Content Layout
+    .page-container
+      .left-column
+        each recipe in recipes
+          img.recipe-image(src=`/images/${recipe.image}` alt=recipe.title)
 
-    // Search Bar
-    .search-bar
-      form(action="/search" method="GET")
-        input(type="text" name="query" placeholder="Search recipes...")
-        button(type="submit") Search
+      .content-wrapper
+        .hero
+          h2 Swap & Share Recipes with Your Community!
+          p Find and share recipes, swap ingredients, and explore new meals.
+          a.btn(href="/recipes") Explore Recipes
 
-    // How It Works Section (Updated)
-    .how-it-works(style="text-align: center;")
-      h3 How It Works
-      ul(style="list-style: disc; display: inline-block; text-align: left;")
-        li Discover unique recipes and fresh ideas from your community.
-        li Engage and comment on fellow users' recipe's and rate them.
-        li Share your culinary creations and enjoy delicious meals together!
+        // Search Bar
+        .search-bar
+          form(action="/search" method="GET")
+            input(type="text" name="query" placeholder="Search recipes...")
+            button(type="submit") Search
+
+        // How It Works Section
+        .how-it-works(style="text-align: center;")
+          h3 How It Works
+          ul(style="list-style: disc; display: inline-block; text-align: left;")
+            li Discover unique recipes and fresh ideas from your community.
+            li Engage and comment on fellow users' recipes and rate them.
+            li Share your culinary creations and enjoy delicious meals together!
+
+      .right-column
+        each recipe in recipes
+          img.recipe-image(src=`/images/${recipe.image}` alt=recipe.title)
 
     footer
       p &copy; 2025 The Flavour Cartel | Made with ❤️
