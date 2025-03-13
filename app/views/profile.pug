@@ -1,12 +1,12 @@
 doctype html
 html(lang="en")
   head
-    title= `${user.name}'s Profile - Flavour Cartel`
+    title= `${user.name}'s Profile - The Flavour Cartel`
     link(rel="stylesheet" href="/styles.css")
   body
     header
       .navbar
-        h1 Flavour Cartel
+        h1 The Flavour Cartel
         nav
           ul
             li: a(href="/") Home
@@ -15,26 +15,32 @@ html(lang="en")
             li: a(href="/users") Users
             li: a(href="/login") Login
 
-    // Profile Section
-    .profile-container
-      .profile-header
-        img(src=`/images/${user.profile_picture || 'default.png'}` alt="Profile Picture")
-        h2= user.name
-        p= user.email
-
-    // User's Recipes
-    .user-recipes
-      h3 Recipes by #{user.name}
-      if recipes.length
-        .recipe-grid
-          each recipe in recipes
-            .recipe-card
-              img(src=`/images/${recipe.image}` alt=recipe.title)
-              h4= recipe.title
-              p= recipe.description
-              a.btn(href=`/recipe/${recipe.id}`) View Recipe
-      else
-        p No recipes posted yet.
+    .main-content
+      .profile-container
+        // Profile Card: Encased in a square
+        .profile-card
+          // Small square around the picture
+          .profile-picture-container
+            img(src=`/images/${user.profile_picture || 'default.png'}` alt="Profile Picture")
+          h2= user.name
+          if user.bio
+            p.bio= user.bio
+          else
+            p.bio No bio available.
+        
+        // Recipes Section with spacing below the profile card
+        .recipes-section
+          h3 Recipes by #{user.name}
+          if recipes.length
+            .recipe-grid
+              each recipe in recipes
+                .recipe-card
+                  img(src=`/images/${recipe.image}` alt=recipe.title)
+                  h4= recipe.title
+                  p= recipe.description
+                  a.btn(href=`/recipe/${recipe.id}`) View Recipe
+          else
+            p No recipes posted yet.
 
     footer
-      p &copy; 2025 Flavour Cartel | Made with ❤️
+      p &copy; 2025 The Flavour Cartel | Made with ❤️
