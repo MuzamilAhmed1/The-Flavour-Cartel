@@ -489,15 +489,15 @@ button:hover {
 
 /* Left & Right Image Columns */
 .left-column, .right-column {
-    width: 20%; /* Makes each column take up 20% of the page */
+    width: 20%;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between images */
+    gap: 15px;
 }
 
 /* Center Content */
 .content-wrapper {
-    width: 55%; /* Center content takes up most space */
+    width: 55%;
     text-align: center;
 }
 
@@ -526,5 +526,3 @@ button:hover {
         width: 100%;
     }
 }
-
-  

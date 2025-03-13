@@ -18,8 +18,9 @@ html(lang="en")
     // Main Content Layout
     .page-container
       .left-column
-        each recipe in recipes
-          img.recipe-image(src=`/images/${recipe.image}` alt=recipe.title)
+        img.recipe-image(src="/images/curry.jpg" alt="curry")
+        img.recipe-image(src="/images/spaghetti.jpg" alt="spaghetti")
+        img.recipe-image(src="/images/salad.jpg" alt="salad")
 
       .content-wrapper
         .hero
@@ -42,8 +43,9 @@ html(lang="en")
             li Share your culinary creations and enjoy delicious meals together!
 
       .right-column
-        each recipe in recipes
-          img.recipe-image(src=`/images/${recipe.image}` alt=recipe.title)
+        img.recipe-image(src="/images/fish_and_chips.jpg" alt="fish_and_chips")
+        img.recipe-image(src="/images/mush-rissoto.jpg" alt="mush-rissoto")
+        img.recipe-image(src="/images/mush-rissoto.jpg" alt="mush-rissoto")
 
     footer
       p &copy; 2025 The Flavour Cartel | Made with ❤️
