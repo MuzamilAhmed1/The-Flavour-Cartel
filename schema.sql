@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 13, 2025 at 12:26 PM
+-- Generation Time: Mar 13, 2025 at 02:37 PM
 -- Server version: 9.2.0
 -- PHP Version: 8.2.27
 
@@ -88,7 +88,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `profile_picture`, `bio`, `created_at`) VALUES
-(1, 'John Doe', 'john@example.com', '', 'john.jpg', NULL, '2025-03-12 13:05:33');
+(1, 'John Doe', 'john@example.com', 'password', 'john.jpg', 'Lebrooooon James!', '2025-03-12 13:05:33'),
+(2, 'Jane Smith', 'jane@gmail.com', 'password', 'jane.jpg', 'Welcome to my page!', '2025-03-13 14:32:19'),
+(3, 'James Johnson', 'james@gmail.com', 'password', 'james.jpg', 'I love food!', '2025-03-13 14:32:19');
 
 --
 -- Indexes for dumped tables
@@ -135,7 +137,7 @@ ALTER TABLE `recipes`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
