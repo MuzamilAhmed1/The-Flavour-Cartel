@@ -464,3 +464,82 @@ body {
 .form-group button:hover {
     background: #ff7300;
 }
+
+/* Centered Login & Signup Containers */
+.login-container,
+.signup-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Form Styling */
+.login-container form,
+.signup-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input Field Styling */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #ff914d;
+}
+
+/* Button Styling */
+button {
+    background: #ff914d;
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #ff7300;
+}
+
+/* Signup Link */
+.signup-link {
+    margin-top: 15px;
+}
+
+.signup-link a {
+    color: #ff914d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .login-container,
+    .signup-container {
+        width: 90%;
+    }
+}

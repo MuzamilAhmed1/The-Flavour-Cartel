@@ -143,6 +143,44 @@ app.get("/login", (req, res) => {
   res.render("login"); // This will render login.pug
 });
 
+// Show Signup Page
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
+
+// Handle User Registration (NO PASSWORD HASHING)
+app.post("/signup", async (req, res) => {
+  try {
+    console.log("Received Sign Up Request:", req.body);
+
+    const { first_name, last_name, email, password } = req.body;
+
+    if (!first_name || !last_name || !email || !password) {
+      console.log("Missing fields");
+      return res.status(400).send("All fields are required.");
+    }
+
+    const existingUser = await db.query("SELECT * FROM users WHERE email = ?", [email]);
+    if (existingUser.length > 0) {
+      console.log("Email already registered");
+      return res.status(400).send("Email already registered.");
+    }
+
+    // Store password as plain text (TEMPORARY)
+    await db.query(
+      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+      [`${first_name} ${last_name}`, email, password]
+    );
+
+    console.log("User registered successfully");
+
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error signing up:", error);
+    res.status(500).send("Error signing up");
+  }
+});
+
 // Submit Recipe Page - Show the form
 app.get("/submit-recipe", async (req, res) => {
   try {
