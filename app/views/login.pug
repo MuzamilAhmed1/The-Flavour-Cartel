@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+  head
+    title Login - Flavour Cartel
+    link(rel="stylesheet", href="/styles.css")  
+  body
+    header
+      .navbar
+        h1 Flavour Cartel
+        nav
+          ul
+            li: a(href="/") Home
+            li: a(href="/recipes") Browse Recipes
+            li: a(href="/signup") Sign Up
+
+    // Login Form
+    .login-container
+      h2 Login to Your Account
+      form(action="/login" method="POST")
+        label(for="email") Email:
+        input(type="email" name="email" required)
+
+        label(for="password") Password:
+        input(type="password" name="password" required)
+
+        button(type="submit") Login
+
+    footer
+      p &copy; 2025 Flavour Cartel | Made with ❤️
