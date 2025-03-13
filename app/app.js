@@ -69,20 +69,19 @@ app.get("/users/:id", async (req, res) => {
     // Fetch user info from the database
     const user = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
 
-    // Fetch recipes posted by this user
-    const recipes = await db.query("SELECT * FROM recipes WHERE user_id = ?", [userId]);
-
     // If user not found, show 404 page
     if (user.length === 0) {
       return res.status(404).send("User not found");
     }
 
-    res.render("profile", { user: user[0], recipes });
+    // Render profile with an empty recipes array (or remove recipes from the template if not needed)
+    res.render("profile", { user: user[0], recipes: [] });
   } catch (error) {
     console.error("Error loading profile:", error);
     res.status(500).send("Error loading profile");
   }
 });
+
 
 // Detail Page
 app.get("/recipe/:id", async (req, res) => {
