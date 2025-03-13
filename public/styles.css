@@ -1,4 +1,4 @@
-/* Ensure the body takes up the full viewport height */
+/* Base Styles */
 html, body {
     height: 100%;
     margin: 0;
@@ -31,20 +31,18 @@ html, body {
     z-index: 1000;
 }
 
-/* Navbar Brand (Logo/Text) */
 .navbar h1 {
     font-size: 24px;
     font-weight: bold;
     letter-spacing: 1px;
-    margin-right: auto; /* Ensures the logo stays on the left */
+    margin-right: auto;
 }
 
-/* Navbar Links */
 .navbar nav {
-    flex-grow: 1; /* Ensures the links shift slightly to the left */
+    flex-grow: 1;
     display: flex;
-    justify-content: flex-end; /* Aligns buttons more to the left */
-    margin-right: 20px; /* Adjust this to fine-tune spacing */
+    justify-content: flex-end;
+    margin-right: 20px;
 }
 
 .navbar ul {
@@ -55,7 +53,6 @@ html, body {
     margin: 0;
 }
 
-/* Navbar Buttons */
 .navbar li {
     display: inline;
 }
@@ -68,12 +65,12 @@ html, body {
     padding: 12px 18px;
     border-radius: 8px;
     transition: 0.3s ease-in-out;
-    background: rgba(255, 255, 255, 0.1); /* Subtle button background */
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .navbar a:hover {
     background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05); /* Slight button enlargement */
+    transform: scale(1.05);
 }
 
 /* Mobile Responsive Navbar */
@@ -82,11 +79,9 @@ html, body {
         flex-direction: column;
         text-align: center;
     }
-
     .navbar nav {
         justify-content: center;
     }
-
     .navbar ul {
         flex-direction: column;
         gap: 10px;
@@ -114,13 +109,14 @@ html, body {
     color: white;
     border-radius: 5px;
     text-decoration: none;
+    transition: background 0.3s;
 }
 
 .btn:hover {
     background: #ff7300;
 }
 
-/* Recipe Grid */
+/* Recipe Grid & Cards */
 .recipe-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -128,7 +124,6 @@ html, body {
     padding: 20px;
 }
 
-/* Recipe Cards */
 .recipe-card {
     background: white;
     padding: 15px;
@@ -174,11 +169,31 @@ html, body {
     padding: 30px;
 }
 
-.profile-header img {
-    width: 150px;
-    height: 150px;
+.profile-card {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ff914d;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.profile-picture-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 10px;
+    border: 2px solid #ff914d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-picture-container img {
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    border: 3px solid #ff914d;
 }
 
 .profile-header h2 {
@@ -189,54 +204,46 @@ html, body {
     margin-top: 20px;
 }
 
-/* Footer stays at the bottom */
-footer {
-    text-align: center;
-    padding: 15px;
-    background: #ff914d;
-    color: white;
-    margin-top: auto;
-}
-
+/* Detail Page */
 .detail-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .top-section {
+}
+
+.top-section {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .bottom-section {
+}
+
+.bottom-section {
     display: flex;
     width: 80%;
     margin: 0 auto;
     justify-content: space-between;
     gap: 20px;
-  }
-  
-  .left-column,
-  .right-column {
+}
+
+.left-column,
+.right-column {
     flex: 1;
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .left-column h3,
-  .right-column h3 {
+}
+
+.left-column h3,
+.right-column h3 {
     margin-top: 0;
-  }
-  
-  .actions {
+}
+
+.actions {
     text-align: center;
     margin-top: 20px;
-  }
-  
-  /* Users List Page */
+}
+
+/* Users List Page */
 .users-container {
     max-width: 900px;
     margin: 40px auto;
@@ -280,98 +287,12 @@ footer {
     border: 2px solid #ff914d;
 }
 
-.detail-container img {
-    max-width: 400px; /* Adjust the maximum width as needed */
-    width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-
-/* Ensure the body takes up the full viewport height */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    background: #f8f8f8;
-    color: #333;
-    font-family: Arial, sans-serif;
-}
-
-/* Main content expands to push footer down */
-.main-content {
-    flex: 1;
-    padding: 20px;
-}
-
-/* Footer stays at the bottom */
-footer {
-    text-align: center;
-    padding: 15px;
-    background: #ff914d;
-    color: white;
-    margin-top: auto;
-}
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f8f8f8;
-    color: #333;
-  }
-  
-  .login-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-  }
-  
-  .login-container h2 {
-    margin-bottom: 20px;
-  }
-  
-  .login-container form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .login-container label {
-    margin-bottom: 5px;
-    text-align: left;
-  }
-  
-  .login-container input {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .login-container button {
-    padding: 10px;
-    background: #ff914d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .login-container button:hover {
-    background: #e06d24;
-  }
-
-  /* Search Bar Styling */
+/* Search Bar Styling */
 .search-bar {
     display: flex;
-    justify-content: center;  /* Centers the search bar */
+    justify-content: center;
     align-items: center;
-    margin: 30px auto;  /* Adds spacing around */
+    margin: 30px auto;
     padding: 10px;
     width: 100%;
 }
@@ -394,7 +315,6 @@ body {
     border: none;
     outline: none;
     border-radius: 25px 0 0 25px;
-    width: 100%;
 }
 
 .search-bar button {
@@ -412,8 +332,7 @@ body {
     background: #ff7300;
 }
 
-  
-  /* Submit Recipe Page */
+/* Submit Recipe Page */
 .submit-container {
     max-width: 600px;
     margin: 40px auto;
@@ -464,3 +383,87 @@ body {
 .form-group button:hover {
     background: #ff7300;
 }
+
+/* Login & Signup Containers */
+.login-container,
+.signup-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-container form,
+.signup-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #ff914d;
+}
+
+button {
+    background: #ff914d;
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #ff7300;
+}
+
+.signup-link {
+    margin-top: 15px;
+}
+
+.signup-link a {
+    color: #ff914d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .login-container,
+    .signup-container {
+        width: 90%;
+    }
+}
+
+.detail-container .top-section img {
+    max-width: 300px;  /* Adjust this value as needed */
+    width: auto;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
