@@ -16,7 +16,7 @@ html(lang="en")
 
     .main-content
       .detail-container
-        // ============= TOP SECTION =============
+        // TOP SECTION: Title, Image, Metadata
         .top-section
           h2= recipe.title
           if recipe.image
@@ -26,29 +26,29 @@ html(lang="en")
           if recipe.created_at
             p Created at: #{new Date(recipe.created_at).toLocaleString()}
 
-        // ============= BOTTOM SECTION =============
+        // BOTTOM SECTION: Two-Column Layout
         .bottom-section
-          // =========== LEFT COLUMN (INGREDIENTS) ===========
+          // LEFT COLUMN: Ingredients
           .left-column
             h3 Ingredients
-            if recipe.ingredients
+            if recipe.ingredients.length
               ul
                 each ingredient in recipe.ingredients
                   li= ingredient
             else
-              p No ingredients data provided.
+              p No ingredients provided.
 
-          // =========== RIGHT COLUMN (INSTRUCTIONS) ===========
+          // RIGHT COLUMN: Instructions
           .right-column
             h3 Instructions
-            if recipe.instructions
-              ol
+            if recipe.instructions.length
+              ul
                 each step in recipe.instructions
                   li= step
             else
-              p No instructions data provided.
+              p No instructions provided.
 
-        // ============= ACTIONS (PLACEHOLDER) =============
+        // ACTIONS: Back button
         .actions
           a.btn(href="/recipes") Back to Recipes
 

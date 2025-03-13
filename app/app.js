@@ -89,20 +89,30 @@ app.get("/recipe/:id", async (req, res) => {
   try {
     const recipeId = req.params.id;
     const queryText = `
-      SELECT recipes.*, categories.name AS category_name
-      FROM recipes
-      JOIN categories ON recipes.category_id = categories.id
+      SELECT recipes.*, categories.name AS category_name 
+      FROM recipes 
+      JOIN categories ON recipes.category_id = categories.id 
       WHERE recipes.id = ?
     `;
-    const [recipe] = await db.query(queryText, [recipeId]);
+    const result = await db.query(queryText, [recipeId]);
 
-    if (!recipe) {
+    if (result.length === 0) {
       return res.status(404).send("Recipe not found");
     }
 
-    // If you're storing ingredients/instructions as TEXT with commas or line breaks:
-    // recipe.ingredients = recipe.ingredients ? recipe.ingredients.split(",") : [];
-    // recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
+    const recipe = result[0];
+
+    // Split the ingredients and instructions into arrays if they exist.
+    if (recipe.ingredients) {
+      recipe.ingredients = recipe.ingredients.split("\n");
+    } else {
+      recipe.ingredients = [];
+    }
+    if (recipe.instructions) {
+      recipe.instructions = recipe.instructions.split("\n");
+    } else {
+      recipe.instructions = [];
+    }
 
     res.render("detail", { recipe });
   } catch (error) {
@@ -110,6 +120,7 @@ app.get("/recipe/:id", async (req, res) => {
     res.status(500).send("Error loading recipe details");
   }
 });
+
 
 // Users Listing Page
 app.get("/users", async (req, res) => {
@@ -126,4 +137,9 @@ app.get("/users", async (req, res) => {
       console.error("Error fetching users:", error);
       res.status(500).send("Error loading users list.");
   }
+});
+
+// Login Page Route - Show Login Form
+app.get("/login", (req, res) => {
+  res.render("login"); // This will render login.pug
 });
