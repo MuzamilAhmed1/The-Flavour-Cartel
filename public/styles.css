@@ -464,31 +464,3 @@ body {
 .form-group button:hover {
     background: #ff7300;
 }
-
-.profile-card {
-    width: 300px;
-    height: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 2px solid #ff914d;
-    border-radius: 8px;
-    text-align: center;
-    background-color: #fff;
-  }
-  
-  .profile-picture-container {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 10px auto;  /* Center horizontally, add margin-bottom */
-    border: 2px solid #ff914d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .profile-picture-container img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-  }
-  
