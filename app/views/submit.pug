@@ -1,0 +1,47 @@
+doctype html
+html(lang="en")
+  head
+    title Submit a Recipe - Flavour Cartel
+    link(rel="stylesheet" href="/styles.css")
+  body
+    // Navbar
+    header
+      .navbar
+        h1 Flavour Cartel
+        nav
+          ul
+            li: a(href="/recipes") Browse Recipes
+            li: a(href="/submit-recipe") Submit Recipe
+            li: a(href="/swap") Swap Ingredients
+            li: a(href="/") Home
+
+    // Main content container
+    .main-content
+      .submit-container
+        h1 Submit a Recipe
+        form(action="/submit-recipe" method="POST")
+          .form-group
+            label(for="title") Recipe Title:
+            input(type="text" name="title" required)
+
+          .form-group
+            label(for="description") Description:
+            textarea(name="description" rows="4" required)
+
+          .form-group
+            label(for="image") Image URL:
+            input(type="text" name="image" placeholder="https://example.com/image.jpg")
+
+          .form-group
+            label(for="category") Select Category:
+            select(name="category_id" required)
+              option(value="") -- Select a Category --
+              each category in categories
+                option(value=category.id) #{category.name}
+
+          .form-group
+            button.btn(type="submit") Submit Recipe
+
+    // Footer
+    footer
+      p &copy; 2025 Flavour Cartel | Made with ❤️

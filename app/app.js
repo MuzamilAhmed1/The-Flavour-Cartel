@@ -176,3 +176,15 @@ app.get("/search", async (req, res) => {
     res.status(500).send("Error performing search");
   }
 });
+
+
+// Submit Recipe Page - Show the form
+app.get("/submit-recipe", async (req, res) => {
+  try {
+    const categories = await db.query("SELECT * FROM categories");
+    res.render("submit", { categories });
+  } catch (error) {
+    console.error("Error loading submit form:", error);
+    res.status(500).send("Error loading submit form");
+  }
+});
