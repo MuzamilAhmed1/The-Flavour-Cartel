@@ -20,21 +20,78 @@ html, body {
 .navbar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background: #ff914d;
-    padding: 15px;
+    padding: 15px 30px;
     color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Navbar Brand (Logo/Text) */
+.navbar h1 {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-right: auto; /* Ensures the logo stays on the left */
+}
+
+/* Navbar Links */
+.navbar nav {
+    flex-grow: 1; /* Ensures the links shift slightly to the left */
+    display: flex;
+    justify-content: flex-end; /* Aligns buttons more to the left */
+    margin-right: 20px; /* Adjust this to fine-tune spacing */
 }
 
 .navbar ul {
     list-style: none;
     display: flex;
     gap: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navbar Buttons */
+.navbar li {
+    display: inline;
 }
 
 .navbar a {
     text-decoration: none;
     color: white;
+    font-size: 16px;
     font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 8px;
+    transition: 0.3s ease-in-out;
+    background: rgba(255, 255, 255, 0.1); /* Subtle button background */
+}
+
+.navbar a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05); /* Slight button enlargement */
+}
+
+/* Mobile Responsive Navbar */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar nav {
+        justify-content: center;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
 }
 
 /* Hero Section */
@@ -308,4 +365,51 @@ body {
   .login-container button:hover {
     background: #e06d24;
   }
+
+  /* Search Bar Styling */
+.search-bar {
+    display: flex;
+    justify-content: center;  /* Centers the search bar */
+    align-items: center;
+    margin: 30px auto;  /* Adds spacing around */
+    padding: 10px;
+    width: 100%;
+}
+
+.search-bar form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 25px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    border-radius: 25px 0 0 25px;
+    width: 100%;
+}
+
+.search-bar button {
+    padding: 12px 20px;
+    background: #ff914d;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 25px 25px 0;
+    transition: 0.3s;
+}
+
+.search-bar button:hover {
+    background: #ff7300;
+}
+
   

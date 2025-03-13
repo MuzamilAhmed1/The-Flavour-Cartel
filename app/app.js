@@ -143,3 +143,36 @@ app.get("/users", async (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login"); // This will render login.pug
 });
+
+// Submit Recipe Page - Show the form
+app.get("/submit-recipe", async (req, res) => {
+  try {
+    const categories = await db.query("SELECT * FROM categories");
+    res.render("submit", { categories });
+  } catch (error) {
+    console.error("Error loading submit form:", error);
+    res.status(500).send("Error loading submit form");
+  }
+});
+
+
+app.get("/search", async (req, res) => {
+  try {
+    const searchQuery = req.query.query; // Get search input from user
+
+    if (!searchQuery) {
+      return res.redirect("/"); // Redirect if search is empty
+    }
+
+    // Search for recipes that match the title or description
+    const recipes = await db.query(
+      "SELECT * FROM recipes WHERE title LIKE ? OR description LIKE ?",
+      [`%${searchQuery}%`, `%${searchQuery}%`]
+    );
+
+    res.render("search", { searchQuery, recipes });
+  } catch (error) {
+    console.error("Error searching recipes:", error);
+    res.status(500).send("Error performing search");
+  }
+});
