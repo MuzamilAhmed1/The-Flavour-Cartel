@@ -1,12 +1,12 @@
 doctype html
 html(lang="en")
   head
-    title The Flavour Cartel - Home
-    link(rel="stylesheet" href="/styles.css") 
+    title Flavour Cartel - Home
+    link(rel="stylesheet" href="/styles.css")
   body
     header
       .navbar
-        h1 The Flavour Cartel
+        h1 Flavour Cartel
         nav
           ul
             li: a(href="/") Home
@@ -24,37 +24,16 @@ html(lang="en")
     // Search Bar
     .search-bar
       form(action="/search" method="GET")
-        input(type="text" name="query" placeholder="Search recipes, users, categories..." required)
+        input(type="text" name="query" placeholder="Search recipes...")
         button(type="submit") Search
 
-    // Featured Recipes
-    .featured-recipes
-      h3 Featured Recipes
-      .recipe-grid
-        each recipe in recipes
-          .recipe-card
-            img(src=`/images/${recipe.image}` alt=recipe.title)
-            h4= recipe.title
-            p= recipe.description
-            a.btn(href=`/recipe/${recipe.id}`) View Recipe
-
-    // How It Works
-    .how-it-works
+    // How It Works Section (Updated)
+    .how-it-works(style="text-align: center;")
       h3 How It Works
-      ol
-        li Find a recipe you like
-        li Swap or share ingredients
-        li Cook & enjoy!
-    
-// Popular Categories (as tabs)
-.categories
-  h3 Explore by Category
-  .category-tabs
-    ul
-      li: a(href="/recipes?category=vegetarian") Vegetarian
-      li: a(href="/recipes?category=quick-meals") Quick Meals
-      li: a(href="/recipes?category=budget-friendly") Budget Friendly
-      li: a(href="/recipes?category=desserts") Desserts
+      ul(style="list-style: disc; display: inline-block; text-align: left;")
+        li Discover unique recipes and fresh ideas from your community.
+        li Engage and comment on fellow users' recipe's and rate them.
+        li Share your culinary creations and enjoy delicious meals together!
 
     footer
       p &copy; 2025 The Flavour Cartel | Made with ❤️
