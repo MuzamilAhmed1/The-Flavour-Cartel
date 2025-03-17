@@ -72,7 +72,7 @@ Once the server is running:
 
 For the complete project board and updates, check:
 	•	GitHub Project Board - https://github.com/users/MuzamilAhmed1/projects/1/views/2
-	•	Repository - https://github.com/MuzamilAhmed1/Software-Engineering
+	•	Repository - https://github.com/MuzamilAhmed1/The-Flavour-Cartel
 
 ## Code of Conduct
 
