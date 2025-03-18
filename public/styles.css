@@ -527,4 +527,29 @@ button:hover {
     }
 }
 
+  /* Override the global image sizing for the creator's image inside the detail container */
+.detail-container .creator-image {
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 5px;
+    max-width: none !important;
+  }
+  
+  /* Style for the creator name button */
+  .user-btn {
+    background: #ff914d;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+  }
+  
+  .user-btn:hover {
+    background: #ff7300;
+  }
   

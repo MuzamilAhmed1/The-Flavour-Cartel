@@ -14,7 +14,6 @@ html(lang="en")
             li: a(href="/submit-recipe") Submit Recipe
             li: a(href="/users") Users
             li: a(href="/login") Login
-
     .main-content
       .detail-container
         // TOP SECTION: Title, Image, Metadata
@@ -28,10 +27,9 @@ html(lang="en")
             p Created at: #{new Date(recipe.created_at).toLocaleString()}
           if recipe.user_name
             p Created by:
-              // Small image and a button with the creator's name
-              img.creator-profile-pic(src=`/images/${recipe.user_image || 'default.png'}` alt="Creator's Image")
+              // Very small image and an orange button with the creator’s name
+              img.creator-image(src=`/images/${recipe.user_image || 'default.png'}` alt="Creator's Image")
               button.btn.user-btn(type="button", onclick=`window.location.href='/users/${recipe.user_id}'`) #{recipe.user_name}
-
         // BOTTOM SECTION: Two-Column Layout
         .bottom-section
           // LEFT COLUMN: Ingredients
@@ -52,13 +50,8 @@ html(lang="en")
                   li= step
             else
               p No instructions provided.
-
         // ACTIONS: Back button
         .actions
           a.btn(href="/recipes") Back to Recipes
-
     footer
-      p
-        | &copy; 2025 The Flavour Cartel | Made with ❤️ 
-        | 
-        a(href="/conduct") Code of Conduct
+      p &copy; 2025 The Flavour Cartel | Made with ❤️
