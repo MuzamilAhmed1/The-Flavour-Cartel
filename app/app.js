@@ -226,3 +226,8 @@ app.get("/submit-recipe", async (req, res) => {
     res.status(500).send("Error loading submit form");
   }
 });
+
+// Code of Conduct Page
+app.get("/conduct", (req, res) => {
+  res.render("conduct"); // Renders the conduct.pug template
+});
