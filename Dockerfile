@@ -1,20 +1,18 @@
-# Base image to use
+# Base image
 FROM node:latest
 
-# set a working directory
+# Set working directory inside the container
 WORKDIR /src
 
-# Copy across project configuration information
-# Install application dependencies
-COPY package*.json /src/
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install
 
-# Ask npm to install the dependencies
-RUN npm install -g supervisor && npm install && npm install supervisor
+# Copy the rest of the app
+COPY . .
 
-# Copy across all our files
-COPY . /src
-
-# Expose our application port (3000)
+# Expose the app's port
 EXPOSE 3000
 
-
+# Default command to run the app
+CMD ["node", "index.js"]
