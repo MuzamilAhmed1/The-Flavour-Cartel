@@ -57,11 +57,101 @@ app.get("/recipes", async (req, res) => {
     }
 
     const recipes = await db.query(query, params);
-    res.render("categories", { recipes, categories, selectedCategory });
-  } catch (err) {
-    console.error("Error loading recipes:", err);
-    res.status(500).send("Server error");
+
+    res.render("categories", { 
+      recipes, 
+      categories, 
+      selectedCategory 
+    });
+  } catch (error) {
+    console.error("Error loading recipes:", error);
+    res.status(500).send("Error loading recipes");
   }
+});
+
+module.exports = app; // Export the Express app
+
+// User Profile Page
+app.get("/users/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Fetch user info from the database
+    const user = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
+
+    if (user.length === 0) {
+      return res.status(404).send("User not found");
+    }
+
+    // Fetch recipes posted by this user
+    const recipes = await db.query("SELECT * FROM recipes WHERE user_id = ?", [userId]);
+
+    res.render("profile", { user: user[0], recipes });
+  } catch (error) {
+    console.error("Error loading profile:", error);
+    res.status(500).send("Error loading profile");
+  }
+});
+
+
+// Detail Page
+app.get("/recipe/:id", async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const queryText = `
+      SELECT 
+        recipes.*, 
+        categories.name AS category_name,
+        users.id AS user_id,
+        users.name AS user_name,
+        users.profile_picture AS user_image
+      FROM recipes 
+      JOIN categories ON recipes.category_id = categories.id 
+      JOIN users ON recipes.user_id = users.id
+      WHERE recipes.id = ?
+    `;
+    const result = await db.query(queryText, [recipeId]);
+
+    if (result.length === 0) {
+      return res.status(404).send("Recipe not found");
+    }
+
+    const recipe = result[0];
+
+    // Split ingredients and instructions into arrays if they exist.
+    recipe.ingredients = recipe.ingredients ? recipe.ingredients.split("\n") : [];
+    recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
+
+    res.render("detail", { recipe });
+  } catch (error) {
+    console.error("Error loading recipe details:", error);
+    res.status(500).send("Error loading recipe details");
+  }
+});
+
+
+
+
+// Users Listing Page
+app.get("/users", async (req, res) => {
+  try {
+      const users = await db.query("SELECT id, name, email, profile_picture, created_at FROM users");
+
+      // Check if there are users
+      if (!users || users.length === 0) {
+          return res.status(404).send("No users found.");
+      }
+
+      res.render("users", { users });
+  } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).send("Error loading users list.");
+  }
+});
+
+// Login Page Route - Show Login Form
+app.get("/login", (req, res) => {
+  res.render("login"); // This will render login.pug
 });
 
 // Show Signup Page
@@ -225,6 +315,11 @@ app.get("/recipe/:id", async (req, res) => {
 // Code of Conduct Page
 app.get("/conduct", (req, res) => {
   res.render("conduct");
+});
+
+// generate page
+app.get("/generate", (req, res) => {
+  res.render("generate");
 });
 
 module.exports = app;
