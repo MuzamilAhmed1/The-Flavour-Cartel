@@ -231,3 +231,8 @@ app.get("/submit-recipe", async (req, res) => {
 app.get("/conduct", (req, res) => {
   res.render("conduct"); // Renders the conduct.pug template
 });
+
+// generate page
+app.get("/generate", (req, res) => {
+  res.render("generate");
+});

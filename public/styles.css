@@ -553,3 +553,38 @@ button:hover {
     background: #ff7300;
   }
   
+/* Ensure the line box is a flex container */
+.line-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  /* The text input grows to fill space */
+  .line-input {
+    flex: 1;
+    margin-right: 8px;
+  }
+  
+  /* Force the "X" button small even if there's a global .btn or button style */
+  button.remove-btn {
+    /* Use !important to override any conflicting global styles */
+    background-color: #e74c3c !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 28px !important;
+    height: 28px !important;
+    cursor: pointer !important;
+    font-size: 0.9rem !important;
+    line-height: 28px !important;
+    text-align: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important; /* so it won't stretch in flex container */
+  }
+  
+  button.remove-btn:hover {
+    background-color: #c0392b !important;
+  }
+  

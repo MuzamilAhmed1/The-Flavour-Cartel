@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+  head
+    title Generate Recipe - Flavour Cartel
+    link(rel="stylesheet" href="/styles.css")
+  body
+    // Navbar
+    header
+      .navbar
+        h1 Flavour Cartel
+        nav
+          ul
+            li: a(href="/") Home
+            li: a(href="/recipes") Browse Recipes
+            li: a(href="/submit-recipe") Submit Recipe
+            li: a(href="/generate") Generate Recipe
+            li: a(href="/users") Users
+            li: a(href="/login") Login
+
+    .main-content
+      .generate-container
+        h1 Generate a Recipe
+        p Enter the ingredients you have and let ChatGPT craft a custom recipe!
+
+        form(action="/generate" method="POST")
+          .form-group
+            label(for="ingredients") Ingredients:
+            textarea(name="ingredients" rows="5" placeholder="e.g. chicken, garlic, onion..." required)
+
+          button.btn(type="submit") Generate Recipe
+
+    footer
+      p
+        | &copy; 2025 The Flavour Cartel | Made with ❤️
+        | 
+        a(href="/conduct") Code of Conduct

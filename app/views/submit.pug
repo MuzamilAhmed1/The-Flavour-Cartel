@@ -3,8 +3,65 @@ html(lang="en")
   head
     title Submit a Recipe - Flavour Cartel
     link(rel="stylesheet" href="/styles.css")
+
+    script.
+      // Adds a new line input for either ingredients or instructions
+      function addLine(containerId, placeholder, inputName) {
+        const container = document.getElementById(containerId);
+
+        // Create a wrapper <div> for the line
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'line-box';
+
+        // Create the text input
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = inputName;  
+        input.placeholder = placeholder;
+        input.className = 'line-input';
+
+        // Create the "X" remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.innerText = 'X';
+        removeBtn.className = 'remove-btn';
+        removeBtn.onclick = function() {
+          lineDiv.remove();
+        };
+
+        // Append the input and remove button into the line wrapper
+        lineDiv.appendChild(input);
+        lineDiv.appendChild(removeBtn);
+
+        // Add the line wrapper to the container
+        container.appendChild(lineDiv);
+      }
+
+      // Called before form submission to gather lines into hidden fields
+      function prepareFormData() {
+        // Collect all ingredient lines
+        const ingredientInputs = document.getElementsByName('ingredientLines');
+        const ingredientLines = [];
+        for (let i = 0; i < ingredientInputs.length; i++) {
+          const val = ingredientInputs[i].value.trim();
+          if (val) ingredientLines.push(val);
+        }
+        // Join them with "\n" and store in the hidden 'ingredientsField'
+        document.getElementById('ingredientsField').value = ingredientLines.join("\\n");
+
+        // Collect all instruction lines
+        const instructionInputs = document.getElementsByName('instructionLines');
+        const instructionLines = [];
+        for (let i = 0; i < instructionInputs.length; i++) {
+          const val = instructionInputs[i].value.trim();
+          if (val) instructionLines.push(val);
+        }
+        // Join them with "\n" and store in the hidden 'instructionsField'
+        document.getElementById('instructionsField').value = instructionLines.join("\\n");
+      }
+
   body
-    // Navbar
+    // Navbar (sample, matching your existing style)
     header
       .navbar
         h1 Flavour Cartel
@@ -15,31 +72,68 @@ html(lang="en")
             li: a(href="/submit-recipe") Submit Recipe
             li: a(href="/users") Users
             li: a(href="/login") Login
+            li: a(href="/generate") Generate Recipe
 
-    // Main content container
+    // Main content
     .main-content
       .submit-container
         h1 Submit a Recipe
-        form(action="/submit-recipe" method="POST")
+        p Provide your recipe details below. Click "Add Ingredient" or "Add Instruction" as many times as you need. You can also remove lines if you wish.
+
+        // Form calls "prepareFormData()" on submit, ensuring hidden fields get combined
+        form(action="/submit-recipe" method="POST" onsubmit="prepareFormData()")
+          // Title
           .form-group
             label(for="title") Recipe Title:
             input(type="text" name="title" required)
 
+          // Description
           .form-group
             label(for="description") Description:
-            textarea(name="description" rows="4" required)
+            textarea(name="description" rows="3" placeholder="Short summary of your recipe..." required)
 
+          // Image (optional)
           .form-group
             label(for="image") Image URL:
             input(type="text" name="image" placeholder="https://example.com/image.jpg")
 
+          // Category (populated from your database in your app.js route)
           .form-group
-            label(for="category") Select Category:
+            label(for="category_id") Select Category:
             select(name="category_id" required)
               option(value="") -- Select a Category --
               each category in categories
-                option(value=category.id) #{category.name}
+                option(value=category.id)= category.name
 
+          // Ingredients Section
+          .form-group
+            label Ingredients (one line each):
+            #ingredientLinesContainer
+              // We start with one line already
+              .line-box
+                input.line-input(type="text" name="ingredientLines" placeholder="e.g. 2 cups flour")
+                button.remove-btn(type="button", onclick="this.parentNode.remove()") X
+
+            // Button to add more lines
+            button.btn(type="button", onclick="addLine('ingredientLinesContainer','e.g. 1 tsp salt','ingredientLines')") Add Ingredient
+
+          // Instructions Section
+          .form-group
+            label Instructions (one line each):
+            #instructionLinesContainer
+              // Start with one line
+              .line-box
+                input.line-input(type="text" name="instructionLines" placeholder="e.g. Mix dry ingredients.")
+                button.remove-btn(type="button", onclick="this.parentNode.remove()") X
+
+            // Button to add more instruction lines
+            button.btn(type="button", onclick="addLine('instructionLinesContainer','e.g. Add eggs and stir','instructionLines')") Add Instruction
+
+          // Hidden fields that the JS populates
+          input#ingredientsField(type="hidden" name="ingredients")
+          input#instructionsField(type="hidden" name="instructions")
+
+          // Submit the form
           .form-group
             button.btn(type="submit") Submit Recipe
 
