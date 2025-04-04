@@ -27,8 +27,13 @@ html(lang="en")
           .form-group
             label(for="ingredients") Ingredients:
             textarea(name="ingredients" rows="5" placeholder="e.g. chicken, garlic, onions..." required)
-
           button.btn(type="submit") Generate Recipe
+
+        // If a generatedRecipe exists, display it below the form
+        if generatedRecipe
+          .generated-recipe
+            h2 Generated Recipe
+            pre= generatedRecipe
 
     // Footer
     footer
