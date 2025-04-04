@@ -84,10 +84,12 @@ app.get("/users/:id", async (req, res) => {
 });
 
 
-// Detail Page
+// Detail Page with Comments
 app.get("/recipe/:id", async (req, res) => {
   try {
     const recipeId = req.params.id;
+
+    // Fetch the recipe with category and user info
     const queryText = `
       SELECT 
         recipes.*, 
@@ -108,19 +110,28 @@ app.get("/recipe/:id", async (req, res) => {
 
     const recipe = result[0];
 
-    // Split ingredients and instructions into arrays if they exist.
+    // Split ingredients and instructions into arrays
     recipe.ingredients = recipe.ingredients ? recipe.ingredients.split("\n") : [];
     recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
 
+    // 🔽 New: Fetch comments for this recipe
+    const commentsQuery = ` 
+      SELECT comments.*, users.name 
+      FROM comments 
+      JOIN users ON comments.user_id = users.id 
+      WHERE recipe_id = ? 
+      ORDER BY comments.created_at DESC
+    `;
+    const comments = await db.query(commentsQuery, [recipeId]);
+
+    res.render("detail", { recipe, comments }); // 🔄 Pass comments to the view
+    
     res.render("detail", { recipe });
   } catch (error) {
     console.error("Error loading recipe details:", error);
     res.status(500).send("Error loading recipe details");
   }
 });
-
-
-
 
 // Users Listing Page
 app.get("/users", async (req, res) => {
@@ -232,7 +243,25 @@ app.get("/conduct", (req, res) => {
   res.render("conduct"); // Renders the conduct.pug template
 });
 
-// generate page
-app.get("/generate", (req, res) => {
-  res.render("generate");
+// Handle Comment Submission
+app.post("/recipe/:id/comments", express.urlencoded({ extended: true }), async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const { comment } = req.body;
+    const userId = 1; // Replace with logged-in user ID later
+
+    if (!comment) {
+      return res.status(400).send("Comment cannot be empty.");
+    }
+
+    await db.query(
+      "INSERT INTO comments (user_id, recipe_id, comment) VALUES (?, ?, ?)",
+      [userId, recipeId, comment]
+    );
+
+    res.redirect(/recipe/${recipeId});
+  } catch (error) {
+    console.error("Error posting comment:", error);
+    res.status(500).send("Error posting comment");
+  }
 });

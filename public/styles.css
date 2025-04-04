@@ -588,3 +588,66 @@ button:hover {
     background-color: #c0392b !important;
   }
   
+  .comments {
+    max-width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .comment {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+
+  .comment:last-child {
+    border-bottom: none;
+  }
+
+  .comment strong {
+    color: #ff914d;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    resize: vertical;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .comments-section {
+  width: 80%;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.comments-section h3 {
+  margin-bottom: 15px;
+}
+
+.comments-section textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.comments-section button {
+  padding: 10px 15px;
+  background: #ff914d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.comments-section button:hover {
+  background: #ff7300;
+}

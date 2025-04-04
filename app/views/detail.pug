@@ -12,13 +12,12 @@ html(lang="en")
             li: a(href="/") Home
             li: a(href="/recipes") Browse Recipes
             li: a(href="/submit-recipe") Submit Recipe
-            li: a(href="/generate") Generate Recipe
             li: a(href="/users") Users
             li: a(href="/login") Login
-            
+
     .main-content
       .detail-container
-        // TOP SECTION: Title, Image, Metadata
+        // 🔼 TOP SECTION: Title, Image, Metadata
         .top-section
           h2= recipe.title
           if recipe.image
@@ -29,12 +28,11 @@ html(lang="en")
             p Created at: #{new Date(recipe.created_at).toLocaleString()}
           if recipe.user_name
             p Created by:
-              // Very small image and an orange button with the creator’s name
               img.creator-image(src=`/images/${recipe.user_image || 'default.png'}` alt="Creator's Image")
               button.btn.user-btn(type="button", onclick=`window.location.href='/users/${recipe.user_id}'`) #{recipe.user_name}
-        // BOTTOM SECTION: Two-Column Layout
+
+        // 🔽 BOTTOM SECTION: Two-Column Layout
         .bottom-section
-          // LEFT COLUMN: Ingredients
           .left-column
             h3 Ingredients
             if recipe.ingredients.length
@@ -43,7 +41,7 @@ html(lang="en")
                   li= ingredient
             else
               p No ingredients provided.
-          // RIGHT COLUMN: Instructions
+
           .right-column
             h3 Instructions
             if recipe.instructions.length
@@ -52,8 +50,27 @@ html(lang="en")
                   li= step
             else
               p No instructions provided.
-        // ACTIONS: Back button
-        .actions
-          a.btn(href="/recipes") Back to Recipes
+
+      // 🗨️ Comment Section
+      .comments-section
+        h3 Comments
+
+        if comments.length === 0
+          p No comments yet. Be the first to comment!
+        else
+          each c in comments
+            .comment
+              strong= c.name
+              span &nbsp;|&nbsp; #{new Date(c.created_at).toLocaleString()}
+              p= c.comment
+
+        form(action=`/recipe/${recipe.id}/comments`, method="POST")
+          textarea(name="comment", rows="3", placeholder="Write your comment..." required)
+          button(type="submit") Post Comment
+
+      // 🔙 Back Button
+      .actions
+        a.btn(href="/recipes") Back to Recipes
+
     footer
       p &copy; 2025 The Flavour Cartel | Made with ❤️
