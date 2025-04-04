@@ -394,15 +394,12 @@ app.post("/recipe/:id/comments", express.urlencoded({ extended: true }), async (
   }
 });
 
-// Show the Generate Recipe page
-app.get("/generate", (req, res) => {
-  res.render("generate");
-});
-
+// Code of Conduct Page
+app.get("/conduct", (req, res) => {
   res.render("conduct");
 });
 
-// generate page
+// Show the Generate Recipe page
 app.get("/generate", (req, res) => {
   res.render("generate");
 });
