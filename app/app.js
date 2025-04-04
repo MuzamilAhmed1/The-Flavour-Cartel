@@ -114,32 +114,47 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
-// Recipe Detail Page
+// Detail Page
 app.get("/recipe/:id", async (req, res) => {
   try {
     const recipeId = req.params.id;
-    const queryText = `
-      SELECT recipes.*, 
-             categories.name AS category_name,
-             users.id AS user_id,
-             users.name AS user_name,
-             users.profile_picture AS user_image
-      FROM recipes 
-      JOIN categories ON recipes.category_id = categories.id 
+
+    const query = `
+      SELECT 
+        recipes.*, 
+        categories.name AS category_name,
+        users.name AS user_name,
+        users.profile_picture AS user_image
+      FROM recipes
+      JOIN categories ON recipes.category_id = categories.id
       JOIN users ON recipes.user_id = users.id
       WHERE recipes.id = ?
     `;
-    const result = await db.query(queryText, [recipeId]);
+
+    const result = await db.query(query, [recipeId]);
+
     if (result.length === 0) {
-      return res.status(404).send("Recipe not found");
+      return res.status(404).send("Recipe not found.");
     }
+
     const recipe = result[0];
     recipe.ingredients = recipe.ingredients ? recipe.ingredients.split("\n") : [];
     recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
-    res.render("detail", { recipe });
-  } catch (error) {
-    console.error("Error loading recipe details:", error);
-    res.status(500).send("Error loading recipe details");
+
+    // ✅ Fetch comments for the recipe
+    const comments = await db.query(`
+      SELECT comments.comment, comments.created_at, users.name AS user_name
+      FROM comments
+      JOIN users ON comments.user_id = users.id
+      WHERE comments.recipe_id = ?
+      ORDER BY comments.created_at DESC
+    `, [recipeId]);
+
+    // ✅ Pass comments to the view
+    res.render("detail", { recipe, comments });
+  } catch (err) {
+    console.error("Error loading recipe:", err);
+    res.status(500).send("Recipe error.");
   }
 });
 

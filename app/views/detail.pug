@@ -62,7 +62,7 @@ html(lang="en")
         else
           each c in comments
             .comment
-              strong= c.name
+              strong= c.user_name
               span &nbsp;|&nbsp; #{new Date(c.created_at).toLocaleString()}
               p= c.comment
 

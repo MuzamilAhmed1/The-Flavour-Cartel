@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 13, 2025 at 03:44 PM
+-- Generation Time: Apr 04, 2025 at 07:42 PM
 -- Server version: 9.2.0
 -- PHP Version: 8.2.27
 
@@ -40,6 +40,27 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 (2, 'Asian'),
 (1, 'Italian'),
 (3, 'Vegetarian');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `recipe_id` int NOT NULL,
+  `comment` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `user_id`, `recipe_id`, `comment`, `created_at`) VALUES
+(1, 1, 2, 'Sooo good!', '2025-04-04 19:21:08');
 
 -- --------------------------------------------------------
 
@@ -91,7 +112,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `profile_picture`, `bio`, `created_at`) VALUES
 (1, 'John Doe', 'john@example.com', 'password', 'john.jpg', 'Lebrooooon James!', '2025-03-12 13:05:33'),
 (2, 'Jane Smith', 'jane@gmail.com', 'password', 'jane.jpg', 'Welcome to my page!', '2025-03-13 14:32:19'),
-(3, 'James Johnson', 'james@gmail.com', 'password', 'james.jpg', 'I love food!', '2025-03-13 14:32:19');
+(3, 'James Johnson', 'james@gmail.com', 'password', 'james.jpg', 'I love food!', '2025-03-13 14:32:19'),
+(4, 'Mariano Regalado', 'marianoregalado030704@gmail.com', '$2b$10$1WiOMpKjbz1OU.K7nAlgdu4Wo/J9SqgBI0L3hbRy8/P9pVJ1cIQpC', 'default.png', NULL, '2025-04-04 15:58:57');
 
 --
 -- Indexes for dumped tables
@@ -103,6 +125,14 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `profile_picture`, `bio`
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `recipe_id` (`recipe_id`);
 
 --
 -- Indexes for table `recipes`
@@ -129,6 +159,12 @@ ALTER TABLE `categories`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `recipes`
 --
 ALTER TABLE `recipes`
@@ -138,11 +174,18 @@ ALTER TABLE `recipes`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `recipes`
@@ -154,13 +197,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-CREATE TABLE comments (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT NOT NULL,
-  recipe_id INT NOT NULL,
-  comment TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
-);
