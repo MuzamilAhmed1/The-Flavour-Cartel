@@ -259,7 +259,7 @@ app.post("/recipe/:id/comments", express.urlencoded({ extended: true }), async (
       [userId, recipeId, comment]
     );
 
-    res.redirect(/recipe/${recipeId});
+    res.redirect(`/recipe/${recipeId}`);
   } catch (error) {
     console.error("Error posting comment:", error);
     res.status(500).send("Error posting comment");
