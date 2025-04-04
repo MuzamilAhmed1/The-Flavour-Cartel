@@ -6,6 +6,9 @@ const path = require("path");
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // View engine setup
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -312,8 +315,90 @@ app.get("/recipe/:id", async (req, res) => {
   }
 });
 
+app.post("/submit-recipe", async (req, res) => {
+  // Log the incoming request body for debugging
+  console.log("POST /submit-recipe - req.body:", req.body);
+  
+  // Ensure there is a body
+  if (!req.body) {
+    return res.status(400).send("No data submitted.");
+  }
+
+  try {
+    // Destructure fields from the request body; if user_id is not provided, default to 1
+    const {
+      title,
+      description,
+      image,
+      category,      // now a free-text input
+      ingredients,   // newline-separated string from JS
+      instructions,  // newline-separated string from JS
+      user_id        // might not be provided
+    } = req.body;
+    const finalUserId = user_id ? user_id : 1;
+
+    // Check if the category already exists
+    let catResult = await db.query("SELECT id FROM categories WHERE name = ?", [category]);
+    let category_id;
+    if (catResult.length > 0) {
+      // Use the existing category id
+      category_id = catResult[0].id;
+    } else {
+      // Insert the new category and retrieve its new id
+      const insertResult = await db.query("INSERT INTO categories (name) VALUES (?)", [category]);
+      category_id = insertResult.insertId; // Assumes your db.query returns an insertId
+    }
+
+    // Insert the new recipe into the recipes table
+    await db.query(
+      `INSERT INTO recipes 
+         (title, description, image, category_id, user_id, ingredients, instructions) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [title, description, image, category_id, finalUserId, ingredients, instructions]
+    );
+
+    console.log("Recipe submitted successfully.");
+    res.redirect("/recipes");
+  } catch (error) {
+    console.error("Error submitting recipe:", error.message);
+    res.status(500).send("Error submitting recipe: " + error.message);
+  }
+});
+
+
 // Code of Conduct Page
 app.get("/conduct", (req, res) => {
+  res.render("conduct"); // Renders the conduct.pug template
+});
+
+// Handle Comment Submission
+app.post("/recipe/:id/comments", express.urlencoded({ extended: true }), async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const { comment } = req.body;
+    const userId = 1; // Replace with logged-in user ID later
+
+    if (!comment) {
+      return res.status(400).send("Comment cannot be empty.");
+    }
+
+    await db.query(
+      "INSERT INTO comments (user_id, recipe_id, comment) VALUES (?, ?, ?)",
+      [userId, recipeId, comment]
+    );
+
+    res.redirect(`/recipe/${recipeId}`);
+  } catch (error) {
+    console.error("Error posting comment:", error);
+    res.status(500).send("Error posting comment");
+  }
+});
+
+// Show the Generate Recipe page
+app.get("/generate", (req, res) => {
+  res.render("generate");
+});
+
   res.render("conduct");
 });
 

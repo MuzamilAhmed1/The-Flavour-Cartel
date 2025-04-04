@@ -1,25 +1,22 @@
 doctype html
 html(lang="en")
   head
-    title Submit a Recipe - Flavour Cartel
+    title Submit a Recipe - The Flavour Cartel
     link(rel="stylesheet" href="/styles.css")
 
     script.
       // Adds a new line input for either ingredients or instructions
       function addLine(containerId, placeholder, inputName) {
         const container = document.getElementById(containerId);
-
         // Create a wrapper <div> for the line
         const lineDiv = document.createElement('div');
         lineDiv.className = 'line-box';
-
         // Create the text input
         const input = document.createElement('input');
         input.type = 'text';
-        input.name = inputName;  
+        input.name = inputName;
         input.placeholder = placeholder;
         input.className = 'line-input';
-
         // Create the "X" remove button
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
@@ -28,11 +25,9 @@ html(lang="en")
         removeBtn.onclick = function() {
           lineDiv.remove();
         };
-
         // Append the input and remove button into the line wrapper
         lineDiv.appendChild(input);
         lineDiv.appendChild(removeBtn);
-
         // Add the line wrapper to the container
         container.appendChild(lineDiv);
       }
@@ -46,8 +41,8 @@ html(lang="en")
           const val = ingredientInputs[i].value.trim();
           if (val) ingredientLines.push(val);
         }
-        // Join them with "\n" and store in the hidden 'ingredientsField'
-        document.getElementById('ingredientsField').value = ingredientLines.join("\\n");
+        // Join them with "\n" (true newline characters) and store in the hidden 'ingredientsField'
+        document.getElementById('ingredientsField').value = ingredientLines.join("\n");
 
         // Collect all instruction lines
         const instructionInputs = document.getElementsByName('instructionLines');
@@ -57,7 +52,7 @@ html(lang="en")
           if (val) instructionLines.push(val);
         }
         // Join them with "\n" and store in the hidden 'instructionsField'
-        document.getElementById('instructionsField').value = instructionLines.join("\\n");
+        document.getElementById('instructionsField').value = instructionLines.join("\n");
       }
 
   body
@@ -70,9 +65,9 @@ html(lang="en")
             li: a(href="/") Home
             li: a(href="/recipes") Browse Recipes
             li: a(href="/submit-recipe") Submit Recipe
+            li: a(href="/generate") Generate Recipe
             li: a(href="/users") Users
             li: a(href="/login") Login
-            li: a(href="/generate") Generate Recipe
 
     // Main content
     .main-content
@@ -97,13 +92,10 @@ html(lang="en")
             label(for="image") Image URL:
             input(type="text" name="image" placeholder="https://example.com/image.jpg")
 
-          // Category (populated from your database in your app.js route)
+          // Category – free-text input instead of a dropdown
           .form-group
-            label(for="category_id") Select Category:
-            select(name="category_id" required)
-              option(value="") -- Select a Category --
-              each category in categories
-                option(value=category.id)= category.name
+            label(for="category") Category:
+            input(type="text" name="category" placeholder="e.g. Italian, Asian, Vegetarian..." required)
 
           // Ingredients Section
           .form-group
@@ -113,7 +105,6 @@ html(lang="en")
               .line-box
                 input.line-input(type="text" name="ingredientLines" placeholder="e.g. 2 cups flour")
                 button.remove-btn(type="button", onclick="this.parentNode.remove()") X
-
             // Button to add more lines
             button.btn(type="button", onclick="addLine('ingredientLinesContainer','e.g. 1 tsp salt','ingredientLines')") Add Ingredient
 
@@ -125,7 +116,6 @@ html(lang="en")
               .line-box
                 input.line-input(type="text" name="instructionLines" placeholder="e.g. Mix dry ingredients.")
                 button.remove-btn(type="button", onclick="this.parentNode.remove()") X
-
             // Button to add more instruction lines
             button.btn(type="button", onclick="addLine('instructionLinesContainer','e.g. Add eggs and stir','instructionLines')") Add Instruction
 
