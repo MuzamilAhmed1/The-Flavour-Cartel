@@ -32,8 +32,8 @@ html(lang="en")
             p Created by:
               img.creator-image(src=`/images/${recipe.user_image || 'default.png'}` alt="Creator's Image")
               button.btn.user-btn(type="button", onclick=`window.location.href='/users/${recipe.user_id}'`) #{recipe.user_name}
-
-        // 🔽 BOTTOM SECTION: Two-Column Layout
+        
+        // 🔽 BOTTOM SECTION: Two-Column Layout for Ingredients and Instructions
         .bottom-section
           .left-column
             h3 Ingredients
@@ -43,7 +43,6 @@ html(lang="en")
                   li= ingredient
             else
               p No ingredients provided.
-
           .right-column
             h3 Instructions
             if recipe.instructions.length
@@ -52,27 +51,44 @@ html(lang="en")
                   li= step
             else
               p No instructions provided.
-
-      // 🗨️ Comment Section
-      .comments-section
-        h3 Comments
-
-        if comments.length === 0
-          p No comments yet. Be the first to comment!
-        else
-          each c in comments
-            .comment
-              strong= c.user_name
-              span &nbsp;|&nbsp; #{new Date(c.created_at).toLocaleString()}
-              p= c.comment
-
-        form(action=`/recipe/${recipe.id}/comments`, method="POST")
-          textarea(name="comment", rows="3", placeholder="Write your comment..." required)
-          button(type="submit") Post Comment
-
-      // 🔙 Back Button
-      .actions
-        a.btn(href="/recipes") Back to Recipes
+        
+        // ★ Rating Section
+        .section-rating
+          h3 Rate This Recipe
+          if averageRating
+            p Average Rating: #{averageRating.toFixed(1)} / 5.0
+          else
+            p No ratings yet.
+          form(action=`/recipe/${recipe.id}/rate` method="POST")
+            label(for="rating") Select Rating:
+            - var ratings = [];
+            - for (var i = 1.0; i <= 5.0; i += 0.5) { ratings.push(i.toFixed(1)); }
+            select(name="rating", required)
+              option(value="") -- Choose a rating --
+              each r in ratings
+                option(value=r)= r
+            button.btn(type="submit") Submit Rating
+        
+        // 🗨️ Comment Section
+        .comments-section
+          h3 Comments
+          if comments.length === 0
+            p No comments yet. Be the first to comment!
+          else
+            each c in comments
+              .comment
+                strong= c.user_name
+                span &nbsp;|&nbsp; #{new Date(c.created_at).toLocaleString()}
+                p= c.comment
+          form(action=`/recipe/${recipe.id}/comments` method="POST")
+            textarea(name="comment", rows="3", placeholder="Write your comment..." required)
+            button(type="submit") Post Comment
+        
+        // 🔙 Back Button
+        .actions
+          a.btn(href="/recipes") Back to Recipes
 
     footer
       p &copy; 2025 The Flavour Cartel | Made with ❤️
+      p
+        a(href="/conduct") Code of Conduct

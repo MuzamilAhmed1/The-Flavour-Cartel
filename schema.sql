@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 04, 2025 at 07:50 PM
+-- Generation Time: Apr 06, 2025 at 10:17 PM
 -- Server version: 9.2.0
 -- PHP Version: 8.2.27
 
@@ -65,7 +65,22 @@ INSERT INTO `comments` (`id`, `user_id`, `recipe_id`, `comment`, `created_at`) V
 (2, 1, 1, 'comment', '2025-04-04 19:44:12'),
 (3, 1, 1, 'comment2', '2025-04-04 19:45:24'),
 (4, 1, 1, 'comment', '2025-04-04 19:47:11'),
-(5, 1, 4, 'nice dish!', '2025-04-04 19:50:13');
+(5, 1, 4, 'nice dish!', '2025-04-04 19:50:13'),
+(6, 5, 1, 'nice recipe', '2025-04-06 22:15:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `recipe_id` int NOT NULL,
+  `rating` decimal(2,1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -142,6 +157,15 @@ ALTER TABLE `comments`
   ADD KEY `recipe_id` (`recipe_id`);
 
 --
+-- Indexes for table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_rating` (`user_id`,`recipe_id`),
+  ADD KEY `recipe_idx` (`recipe_id`),
+  ADD KEY `user_idx` (`user_id`);
+
+--
 -- Indexes for table `recipes`
 --
 ALTER TABLE `recipes`
@@ -169,7 +193,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `recipes`
@@ -193,6 +223,13 @@ ALTER TABLE `users`
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `ratings`
+--
+ALTER TABLE `ratings`
+  ADD CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `recipes`

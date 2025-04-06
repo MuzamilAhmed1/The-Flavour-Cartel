@@ -29,6 +29,12 @@ html(lang="en")
           else
             p.bio No bio available.
         
+        // Overall average rating for the user's recipes
+        if overallRating
+          p Average Rating on Recipes: #{overallRating.toFixed(1)} / 5.0
+        else
+          p No ratings available.
+
         // Recipes Section with spacing below the profile card
         .recipes-section
           h3 Recipes by #{user.name}

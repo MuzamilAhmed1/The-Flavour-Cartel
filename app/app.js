@@ -42,7 +42,6 @@ app.get("/", async (req, res) => {
 app.get("/recipes", async (req, res) => {
   try {
     const categories = await db.query("SELECT * FROM categories");
-
     let query = `
       SELECT recipes.*, categories.name AS category_name 
       FROM recipes 
@@ -98,63 +97,105 @@ app.post("/generate", async (req, res) => {
   }
 });
 
-// User Profile Page
+// User Profile Page - also compute overall average rating for user's recipes
 app.get("/users/:id", async (req, res) => {
   try {
     const userId = req.params.id;
-    const user = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
-    if (user.length === 0) {
+    const userResult = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
+    if (userResult.length === 0) {
       return res.status(404).send("User not found");
     }
+    const user = userResult[0];
     const recipes = await db.query("SELECT * FROM recipes WHERE user_id = ?", [userId]);
-    res.render("profile", { user: user[0], recipes });
+    const overallRatingResult = await db.query(
+      `SELECT AVG(r.rating) AS overallRating 
+       FROM ratings r 
+       JOIN recipes rec ON r.recipe_id = rec.id 
+       WHERE rec.user_id = ?`,
+      [userId]
+    );
+    const overallRating = overallRatingResult[0].overallRating ? parseFloat(overallRatingResult[0].overallRating) : null;
+    res.render("profile", { user, recipes, overallRating });
   } catch (error) {
     console.error("Error loading profile:", error);
     res.status(500).send("Error loading profile");
   }
 });
 
-// Detail Page
+// Detail Page - fetch recipe, average rating, and comments
 app.get("/recipe/:id", async (req, res) => {
   try {
     const recipeId = req.params.id;
-
     const query = `
       SELECT 
         recipes.*, 
         categories.name AS category_name,
         users.name AS user_name,
-        users.profile_picture AS user_image
+        users.profile_picture AS user_image,
+        users.id AS user_id
       FROM recipes
       JOIN categories ON recipes.category_id = categories.id
       JOIN users ON recipes.user_id = users.id
       WHERE recipes.id = ?
     `;
-
     const result = await db.query(query, [recipeId]);
-
     if (result.length === 0) {
       return res.status(404).send("Recipe not found.");
     }
-
     const recipe = result[0];
     recipe.ingredients = recipe.ingredients ? recipe.ingredients.split("\n") : [];
     recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
 
-    // ✅ Fetch comments for the recipe
-    const comments = await db.query(`
+    const ratingResult = await db.query(
+      "SELECT AVG(rating) AS avgRating FROM ratings WHERE recipe_id = ?",
+      [recipeId]
+    );
+    const averageRating = ratingResult[0].avgRating ? parseFloat(ratingResult[0].avgRating) : null;
+
+    const comments = await db.query(
+      `
       SELECT comments.comment, comments.created_at, users.name AS user_name
       FROM comments
       JOIN users ON comments.user_id = users.id
       WHERE comments.recipe_id = ?
       ORDER BY comments.created_at DESC
-    `, [recipeId]);
+      `,
+      [recipeId]
+    );
 
-    // ✅ Pass comments to the view
-    res.render("detail", { recipe, comments });
+    res.render("detail", { recipe, comments, averageRating });
   } catch (err) {
     console.error("Error loading recipe:", err);
     res.status(500).send("Recipe error.");
+  }
+});
+
+// POST /recipe/:id/rate - Submit or update a rating for a recipe
+app.post("/recipe/:id/rate", async (req, res) => {
+  console.log("POST /recipe/:id/rate reached", req.params, req.body);
+  if (!req.session.user) {
+    return res.status(401).send("You must be logged in to rate a recipe.");
+  }
+  try {
+    const recipeId = req.params.id;
+    const rating = parseFloat(req.body.rating);
+    const userId = req.session.user.id;
+
+    if (isNaN(rating) || rating < 1.0 || rating > 5.0) {
+      return res.status(400).send("Invalid rating.");
+    }
+
+    await db.query(
+      `INSERT INTO ratings (user_id, recipe_id, rating)
+       VALUES (?, ?, ?)
+       ON DUPLICATE KEY UPDATE rating = ?`,
+      [userId, recipeId, rating, rating]
+    );
+    console.log("Rating submitted successfully for recipe", recipeId);
+    res.redirect(`/recipe/${recipeId}`);
+  } catch (error) {
+    console.error("Error submitting rating:", error);
+    res.status(500).send("Error submitting rating");
   }
 });
 
@@ -231,26 +272,32 @@ app.get("/logout", (req, res) => {
   });
 });
 
-// Submit Recipe Page
+// GET /submit-recipe - Protected route for submitting a recipe
 app.get("/submit-recipe", async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).send("You must be logged in to submit a recipe.");
+  }
   try {
     const categories = await db.query("SELECT * FROM categories");
     res.render("submit", { categories });
   } catch (err) {
     console.error("Error loading form:", err);
-    res.status(500).send("Error.");
+    res.status(500).send("Error loading form.");
   }
 });
 
 // Handle Recipe Submission
 app.post("/submit-recipe", async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).send("You must be logged in to submit a recipe.");
+  }
   console.log("POST /submit-recipe - req.body:", req.body);
   if (!req.body) {
     return res.status(400).send("No data submitted.");
   }
   try {
-    const { title, description, image, category, ingredients, instructions, user_id } = req.body;
-    const finalUserId = user_id ? user_id : 1;
+    const { title, description, image, category, ingredients, instructions } = req.body;
+    const finalUserId = req.session.user.id;
     let catResult = await db.query("SELECT id FROM categories WHERE name = ?", [category]);
     let category_id;
     if (catResult.length > 0) {
@@ -275,13 +322,16 @@ app.post("/submit-recipe", async (req, res) => {
 
 // Handle Comment Submission
 app.post("/recipe/:id/comments", express.urlencoded({ extended: true }), async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).send("You must be logged in to post a comment.");
+  }
   try {
     const recipeId = req.params.id;
     const { comment } = req.body;
-    const userId = 1; // Replace with logged-in user ID later
     if (!comment) {
       return res.status(400).send("Comment cannot be empty.");
     }
+    const userId = req.session.user.id;
     await db.query("INSERT INTO comments (user_id, recipe_id, comment) VALUES (?, ?, ?)", [userId, recipeId, comment]);
     res.redirect(`/recipe/${recipeId}`);
   } catch (error) {
