@@ -690,3 +690,26 @@ button:hover {
   .dropdown-menu a:hover {
     background-color: #f2f2f2;
   }  
+
+  .star-rating {
+    direction: rtl;
+    display: inline-flex;
+    gap: 5px;
+    font-size: 1.8rem;
+    user-select: none;
+  }
+  
+  .star-rating input {
+    display: none;
+  }
+  
+  .star-rating label {
+    color: #ccc;
+    cursor: pointer;
+  }
+  
+  .star-rating input:checked ~ label,
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: gold;
+  }

@@ -56,6 +56,12 @@ html(lang="en")
             p Created by:
               img.creator-image(src=`/images/${recipe.user_image || 'default.png'}` alt="Creator's Image")
               button.btn.user-btn(type="button", onclick=`window.location.href='/users/${recipe.user_id}'`) #{recipe.user_name}
+          if averageRating
+            .avg-rating
+              | ⭐ Average Rating:
+              span#avgRating #{averageRating.toFixed(1)} / 5.0
+          else
+            p No ratings yet.
 
         .bottom-section
           .left-column
@@ -75,19 +81,17 @@ html(lang="en")
             else
               p No instructions provided.
 
-        .section-rating
-          h3 Rate This Recipe
-          if averageRating
-            p Average Rating: #{averageRating.toFixed(1)} / 5.0
-          else
-            p No ratings yet.
-          form(action=`/recipe/${recipe.id}/rate`, method="POST")
-            label(for="rating") Select Rating:
-            select(name="rating", required)
-              option(value="") -- Choose a rating --
-              - for (var i = 1.0; i <= 5.0; i += 0.5)
-                option(value=i.toFixed(1))= i.toFixed(1)
-            button.btn(type="submit") Submit Rating
+        if user
+          .section-rating
+            h3 Rate this Recipe
+            form#ratingForm(action=`/recipe/${recipe.id}/rate`, method="POST")
+              .star-rating
+                - for (var i = 5; i >= 1; i--)
+                  input(type="radio", id=`star${i}`, name="rating", value=i)
+                  label(for=`star${i}`) ★
+              button.btn(type="submit") Submit Rating
+        else
+          p You must be logged in to rate.
 
         .comments-section
           h3 Comments
@@ -99,9 +103,12 @@ html(lang="en")
                 strong= c.user_name
                 span &nbsp;|&nbsp; #{new Date(c.created_at).toLocaleString()}
                 p= c.comment
-          form(action=`/recipe/${recipe.id}/comments`, method="POST")
-            textarea(name="comment", rows="3", placeholder="Write your comment...", required)
-            button(type="submit") Post Comment
+          if user
+            form(action=`/recipe/${recipe.id}/comments`, method="POST")
+              textarea(name="comment", rows="3", placeholder="Write your comment...", required)
+              button(type="submit") Post Comment
+          else
+            p You must be logged in to comment.
 
         .actions
           a.btn(href="/recipes") Back to Recipes
