@@ -25,6 +25,12 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// Make user session info available in all Pug views
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
 // ================== ROUTES ==================
 
 // Homepage
@@ -97,14 +103,12 @@ app.post("/generate", async (req, res) => {
   }
 });
 
-// User Profile Page - also compute overall average rating for user's recipes
+// User Profile Page
 app.get("/users/:id", async (req, res) => {
   try {
     const userId = req.params.id;
     const userResult = await db.query("SELECT * FROM users WHERE id = ?", [userId]);
-    if (userResult.length === 0) {
-      return res.status(404).send("User not found");
-    }
+    if (userResult.length === 0) return res.status(404).send("User not found");
     const user = userResult[0];
     const recipes = await db.query("SELECT * FROM recipes WHERE user_id = ?", [userId]);
     const overallRatingResult = await db.query(
@@ -122,7 +126,7 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
-// Detail Page - fetch recipe, average rating, and comments
+// Detail Page
 app.get("/recipe/:id", async (req, res) => {
   try {
     const recipeId = req.params.id;
@@ -139,12 +143,15 @@ app.get("/recipe/:id", async (req, res) => {
       WHERE recipes.id = ?
     `;
     const result = await db.query(query, [recipeId]);
-    if (result.length === 0) {
-      return res.status(404).send("Recipe not found.");
-    }
+    if (result.length === 0) return res.status(404).send("Recipe not found.");
     const recipe = result[0];
     recipe.ingredients = recipe.ingredients ? recipe.ingredients.split("\n") : [];
     recipe.instructions = recipe.instructions ? recipe.instructions.split("\n") : [];
+
+    const relatedRecipes = await db.query(
+      `SELECT id, title, image FROM recipes WHERE id != ? ORDER BY RAND() LIMIT 3`,
+      [recipeId]
+    );
 
     const ratingResult = await db.query(
       "SELECT AVG(rating) AS avgRating FROM ratings WHERE recipe_id = ?",
@@ -153,29 +160,29 @@ app.get("/recipe/:id", async (req, res) => {
     const averageRating = ratingResult[0].avgRating ? parseFloat(ratingResult[0].avgRating) : null;
 
     const comments = await db.query(
-      `
-      SELECT comments.comment, comments.created_at, users.name AS user_name
-      FROM comments
-      JOIN users ON comments.user_id = users.id
-      WHERE comments.recipe_id = ?
-      ORDER BY comments.created_at DESC
-      `,
+      `SELECT comments.comment, comments.created_at, users.name AS user_name
+       FROM comments
+       JOIN users ON comments.user_id = users.id
+       WHERE comments.recipe_id = ?
+       ORDER BY comments.created_at DESC`,
       [recipeId]
     );
 
-    res.render("detail", { recipe, comments, averageRating });
+    res.render("detail", {
+      recipe,
+      comments,
+      averageRating,
+      relatedRecipes: Array.isArray(relatedRecipes) ? relatedRecipes : []
+    });
   } catch (err) {
     console.error("Error loading recipe:", err);
     res.status(500).send("Recipe error.");
   }
 });
 
-// POST /recipe/:id/rate - Submit or update a rating for a recipe
+// POST /recipe/:id/rate
 app.post("/recipe/:id/rate", async (req, res) => {
-  console.log("POST /recipe/:id/rate reached", req.params, req.body);
-  if (!req.session.user) {
-    return res.status(401).send("You must be logged in to rate a recipe.");
-  }
+  if (!req.session.user) return res.status(401).send("You must be logged in to rate a recipe.");
   try {
     const recipeId = req.params.id;
     const rating = parseFloat(req.body.rating);
@@ -191,7 +198,6 @@ app.post("/recipe/:id/rate", async (req, res) => {
        ON DUPLICATE KEY UPDATE rating = ?`,
       [userId, recipeId, rating, rating]
     );
-    console.log("Rating submitted successfully for recipe", recipeId);
     res.redirect(`/recipe/${recipeId}`);
   } catch (error) {
     console.error("Error submitting rating:", error);
@@ -203,9 +209,7 @@ app.post("/recipe/:id/rate", async (req, res) => {
 app.get("/users", async (req, res) => {
   try {
     const users = await db.query("SELECT id, name, email, profile_picture, created_at FROM users");
-    if (!users || users.length === 0) {
-      return res.status(404).send("No users found.");
-    }
+    if (!users || users.length === 0) return res.status(404).send("No users found.");
     res.render("users", { users });
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -231,9 +235,7 @@ app.post("/signup", async (req, res) => {
   }
   try {
     const existing = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-    if (existing.length > 0) {
-      return res.status(400).send("Email already registered.");
-    }
+    if (existing.length > 0) return res.status(400).send("Email already registered.");
     const hashedPassword = await bcrypt.hash(password, 10);
     const fullName = `${first_name} ${last_name}`;
     await db.query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [fullName, email, hashedPassword]);
@@ -249,15 +251,18 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const result = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-    if (result.length === 0) {
-      return res.status(401).send("Invalid email or password.");
-    }
+    if (result.length === 0) return res.status(401).send("Invalid email or password.");
     const user = result[0];
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).send("Invalid email or password.");
-    }
-    req.session.user = { id: user.id, name: user.name, email: user.email };
+    if (!isMatch) return res.status(401).send("Invalid email or password.");
+
+    // ✅ Include profile_picture
+    req.session.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      profile_picture: user.profile_picture
+    };
     res.redirect(`/users/${user.id}`);
   } catch (err) {
     console.error("Error logging in:", err);
@@ -272,11 +277,9 @@ app.get("/logout", (req, res) => {
   });
 });
 
-// GET /submit-recipe - Protected route for submitting a recipe
+// Submit Recipe Page
 app.get("/submit-recipe", async (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).send("You must be logged in to submit a recipe.");
-  }
+  if (!req.session.user) return res.status(401).send("You must be logged in to submit a recipe.");
   try {
     const categories = await db.query("SELECT * FROM categories");
     res.render("submit", { categories });
@@ -288,13 +291,7 @@ app.get("/submit-recipe", async (req, res) => {
 
 // Handle Recipe Submission
 app.post("/submit-recipe", async (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).send("You must be logged in to submit a recipe.");
-  }
-  console.log("POST /submit-recipe - req.body:", req.body);
-  if (!req.body) {
-    return res.status(400).send("No data submitted.");
-  }
+  if (!req.session.user) return res.status(401).send("You must be logged in to submit a recipe.");
   try {
     const { title, description, image, category, ingredients, instructions } = req.body;
     const finalUserId = req.session.user.id;
@@ -307,12 +304,10 @@ app.post("/submit-recipe", async (req, res) => {
       category_id = insertResult.insertId;
     }
     await db.query(
-      `INSERT INTO recipes 
-         (title, description, image, category_id, user_id, ingredients, instructions) 
+      `INSERT INTO recipes (title, description, image, category_id, user_id, ingredients, instructions) 
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [title, description, image, category_id, finalUserId, ingredients, instructions]
     );
-    console.log("Recipe submitted successfully.");
     res.redirect("/recipes");
   } catch (error) {
     console.error("Error submitting recipe:", error.message);
@@ -321,16 +316,12 @@ app.post("/submit-recipe", async (req, res) => {
 });
 
 // Handle Comment Submission
-app.post("/recipe/:id/comments", express.urlencoded({ extended: true }), async (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).send("You must be logged in to post a comment.");
-  }
+app.post("/recipe/:id/comments", async (req, res) => {
+  if (!req.session.user) return res.status(401).send("You must be logged in to post a comment.");
   try {
     const recipeId = req.params.id;
     const { comment } = req.body;
-    if (!comment) {
-      return res.status(400).send("Comment cannot be empty.");
-    }
+    if (!comment) return res.status(400).send("Comment cannot be empty.");
     const userId = req.session.user.id;
     await db.query("INSERT INTO comments (user_id, recipe_id, comment) VALUES (?, ?, ?)", [userId, recipeId, comment]);
     res.redirect(`/recipe/${recipeId}`);
@@ -345,5 +336,5 @@ app.get("/conduct", (req, res) => {
   res.render("conduct");
 });
 
-// Export the app (all routes have been registered above)
+// Export the app
 module.exports = app;
